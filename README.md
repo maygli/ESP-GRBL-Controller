@@ -3,7 +3,10 @@
 
 GRBL controller based on esp8266.
 
- * Hardware
+ Hardware
+-------------
+
+ ![circuit diagram](circuit.png)
  
- * Code 
- 
+ Code 
+------------- 
