@@ -2,6 +2,10 @@
 #define CONFIG_H
 
 #include <LittleFS.h>
+#include <ArduinoJson.h>
+
+//Debug
+#define DEBUG_UART0 
 
 //Default parameter
 //Initial mode Access Point - true, Station - false
@@ -31,9 +35,12 @@
 //Connection timeout in station mode in milliseconds. If board can't connect to one of defined netword, it will switch to Access Point mode
 #define CONFIG_ST_CONNECTION_TIMEOUT 5000
 
-class ControllerConfig{
+class GrblCtrl_Config{
 public:
-    ControllerConfig();
+    GrblCtrl_Config();
+    void setInternalFS(FS* theFS);
+    void setExternalFS(FS* theFS);
+    void init();
     bool isAcessPoint() const;
     String getAccessPointName() const;
     String getAccessPointPassword() const;
@@ -42,14 +49,32 @@ public:
     String getSTPassword(int theIndx) const;
     int   getConnectionTimeout() const;
 protected: 
-    void fillDefaults();    
+    void fillDefaults();
+    void readConfig(FS* theFS, String theFileName);
+    void saveConfig();
+    void fillConfigDoc(JsonDocument& theDoc);
+protected:
+    static const String m_sTemporaryFileName;
+    static const String m_sMainConfigFileName;
+    static const String m_sOldConfigFileName;        
+    static const String m_sWiFiSection;
+    static const String m_sWifiAPModeKey;
+    static const String m_sAceessPointSection;
+    static const String m_sWiFiAccessPointNameKey;
+    static const String m_sWiFiAccessPointPwdKey;
+    static const String m_sStationSection;
+    static const String m_sNetworkSection;
+    static const String m_sSSIDKey;
+    static const String m_sStPWdKey;    
 private:
-    char m_sAPAppPointName[64];
-    char m_sAPPassword[64];
-    char m_sSSID[CONFIG_STORED_SSID_COUNT][64];
-    char m_sSTPWD[CONFIG_STORED_SSID_COUNT][64];
+    String m_sAccessPointName;
+    String m_sAPPassword;
+    String m_sSSID[CONFIG_STORED_SSID_COUNT];
+    String m_sSTPWD[CONFIG_STORED_SSID_COUNT];
     bool m_isAP;
-    int  m_iConnectionTimeout;    
+    int  m_iConnectionTimeout;
+    FS*  m_InternalFS;
+    FS*  m_ExternalFS;
 };
 
 #endif
