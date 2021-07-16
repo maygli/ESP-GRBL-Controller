@@ -22,11 +22,17 @@ protected:
     void onNotFound();
     bool handleFileRead(String thePath);
     String getContentType(String theFilename);
+    void onUploadFiremwareParameters();
+    void onUploadFirmwareFinished();
+    void onUploadFirmware();
 protected:
-    FS*              m_HtmlFS;
-    GrblCtrl_Config* m_Config;
-    ESP8266WiFiMulti m_WifiMulti;
-    ESP8266WebServer m_Server;
+    bool                m_isClear;
+    FS*                 m_HtmlFS;
+    GrblCtrl_Config*    m_Config;
+    ESP8266WiFiMulti    m_WifiMulti;
+    ESP8266WebServer    m_Server;
+    File                m_UploadedFile;
+    static const String m_sDefaultPage;
 };
 
 #endif

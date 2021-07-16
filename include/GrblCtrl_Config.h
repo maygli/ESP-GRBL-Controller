@@ -64,6 +64,7 @@ protected:
     static const String m_sWiFiAccessPointPwdKey;
     static const String m_sStationSection;
     static const String m_sNetworkSection;
+    static const String m_sConnectionTimeoutKey;
     static const String m_sSSIDKey;
     static const String m_sStPWdKey;    
 private:

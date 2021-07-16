@@ -3,7 +3,7 @@
 #include "ArduinoJson.h"
 
 GrblCtrl_Http::GrblCtrl_Http() :
-    m_HtmlFS(NULL), m_Config(NULL)
+    m_isClear(false), m_HtmlFS(NULL), m_Config(NULL) 
 {
 
 }
@@ -88,6 +88,9 @@ void GrblCtrl_Http::init()
   m_Server.on("/boardinfo",std::bind(&GrblCtrl_Http::onBoardInfo,this));
   m_Server.onNotFound(std::bind(&GrblCtrl_Http::onNotFound, this));
 
+  m_Server.on("/upload", HTTP_POST, std::bind(&GrblCtrl_Http::onUploadFirmwareFinished, this), std::bind(&GrblCtrl_Http::onUploadFirmware, this) );
+  m_Server.on("/upload_parameters", HTTP_POST, std::bind(&GrblCtrl_Http::onUploadFiremwareParameters, this));
+
   m_Server.begin();                           // Actually start the server
   DEBUG_PRINT_LN("HTTP server started");
 
@@ -96,6 +99,68 @@ void GrblCtrl_Http::init()
 void GrblCtrl_Http::process()
 {
     m_Server.handleClient();
+}
+
+void GrblCtrl_Http::onUploadFirmwareFinished()
+{
+    String aMsg = "File uploaded";
+    m_Server.send(200, "text/plain", aMsg);
+}
+
+void GrblCtrl_Http::onUploadFiremwareParameters()
+{
+  DEBUG_PRINT_LN("GrblCtrl_Http::onUploadFiremwareParameters");
+  m_isClear = false;
+  if( m_Server.hasArg("clear")){
+    if( m_Server.arg("clear") == "true"){
+      m_isClear = true;
+      DEBUG_PRINT_LN("Set clear");
+    }
+  }
+  for( int i = 0 ; i < m_Server.args() ; i++ ){
+    DEBUG_PRINT(m_Server.argName(i));
+    DEBUG_PRINT("=");
+    DEBUG_PRINT_LN(m_Server.arg(i));
+  }
+  String aMsg = "OK";
+  m_Server.send(200, "text/plain", aMsg);
+}
+
+void GrblCtrl_Http::onUploadFirmware()
+{
+    DEBUG_PRINT_LN("Upload called");
+    DEBUG_PRINT_LN(m_Server.hostHeader());
+    HTTPUpload& upload = m_Server.upload();
+    if(upload.status == UPLOAD_FILE_START){
+        if( m_isClear ){
+          m_isClear = false;
+          DEBUG_PRINT_LN("Format FS");
+          m_HtmlFS->format();
+        }
+        String aFileName = upload.filename;
+        if(!aFileName.startsWith("/")) aFileName = "/"+ aFileName;
+           DEBUG_PRINT("handleFileUpload Name: "); DEBUG_PRINT_LN(aFileName);
+        m_UploadedFile = m_HtmlFS->open(aFileName, "w");
+        if(!m_UploadedFile ){
+            m_Server.send(413, "text/plain", "413: couldn't create file");
+        }
+    } else if(upload.status == UPLOAD_FILE_WRITE){
+        if(m_UploadedFile){
+            size_t aWrCnt = m_UploadedFile.write(upload.buf, upload.currentSize); // Write the received bytes to the file
+            if( aWrCnt != upload.currentSize ){
+
+            }
+        }
+    } else if(upload.status == UPLOAD_FILE_END){
+        if(m_UploadedFile) {                                    // If the file was successfully created
+            m_UploadedFile.close();                               // Close the file again
+            DEBUG_PRINT("handleFileUpload Size: "); DEBUG_PRINT_LN(upload.totalSize);
+//      m_Server.sendHeader("Location","/success.html");      // Redirect the client to the success page
+//      m_Server.send(303);
+        } else {
+            m_Server.send(500, "text/plain", "500: couldn't create file");
+        }
+    }    
 }
 
 void GrblCtrl_Http::onNotFound()
@@ -124,19 +189,36 @@ String GrblCtrl_Http::getContentType(String filename) { // convert the file exte
   return "text/plain";
 }
 
+
 bool GrblCtrl_Http::handleFileRead(String thePath) { // send the right file to the client (if it exists)
   DEBUG_PRINT_LN("handleFileRead: " + thePath);
   if( m_HtmlFS == NULL ){
       DEBUG_PRINT_LN("Warning. GrblCtrl_Http::handleFileRead calls before file system is set.");
       return false;
   }
-  if (thePath.endsWith("/")) thePath += "index.html";         // If a folder is requested, send the index file
+  bool isRoot = false;
+  if (thePath.endsWith("/")){
+    DEBUG_PRINT_LN("Root requested"); 
+    if( thePath == "/" ){
+      DEBUG_PRINT_LN("Root set");
+      isRoot = true;
+    }
+    thePath += "index.html";
+  }
   String contentType = getContentType(thePath);            // Get the MIME type
   if (LittleFS.exists(thePath)) {                            // If the file exists
     File file = m_HtmlFS->open(thePath, "r");                 // Open it
     m_Server.streamFile(file, contentType); // And send it to the client
     file.close();                                       // Then close the file again
     return true;
+  }
+  else{
+    DEBUG_PRINT_LN("File not found");
+    if( isRoot == true ){
+      DEBUG_PRINT_LN("Send defualt page");
+      m_Server.send(200, "text/html", m_sDefaultPage);
+      return true;
+    }
   }
   DEBUG_PRINT_LN("\tFile Not Found");
   return false;                                         // If the file doesn't exist, return false

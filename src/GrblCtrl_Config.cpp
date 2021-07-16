@@ -14,6 +14,7 @@ const String GrblCtrl_Config::m_sAceessPointSection="access_point";
 const String GrblCtrl_Config::m_sWiFiAccessPointNameKey="name";
 const String GrblCtrl_Config::m_sWiFiAccessPointPwdKey="password";
 const String GrblCtrl_Config::m_sStationSection="station";
+const String GrblCtrl_Config::m_sConnectionTimeoutKey="connection_timeout";
 const String GrblCtrl_Config::m_sNetworkSection="network";
 const String GrblCtrl_Config::m_sSSIDKey="ssid";
 const String GrblCtrl_Config::m_sStPWdKey="password";
@@ -129,15 +130,20 @@ void GrblCtrl_Config::readConfig(FS* theFS, String theFileName)
         JsonVariant aSSIDVar = aConfigDoc[m_sWiFiSection][m_sStationSection][m_sNetworkSection][i][m_sSSIDKey];
         if( !aSSIDVar.isNull() ){
             m_sSSID[i] = aSSIDVar.as<String>();
-            DEBUG_PRINT("SSID found ");
+            DEBUG_PRINT("SSID found <");
             DEBUG_PRINT_LN(m_sSSID[i]);
         }
         JsonVariant aPwdVar = aConfigDoc[m_sWiFiSection][m_sStationSection][m_sNetworkSection][i][m_sStPWdKey];
         if( !aPwdVar.isNull() ){
             m_sSTPWD[i] = aPwdVar.as<String>();
-            DEBUG_PRINT("Station password found ");
+            DEBUG_PRINT("Station password found <");
             DEBUG_PRINT_LN(m_sSTPWD[i]);
         }
+    }
+    JsonVariant aConnTimeOutVar = aConfigDoc[m_sWiFiSection][m_sStationSection][m_sConnectionTimeoutKey];
+    if( !aConnTimeOutVar.isNull() ){
+        DEBUG_PRINT_LN("Connection timeout found");
+        m_iConnectionTimeout = aConnTimeOutVar.as<int>();       
     }
 }
 
@@ -181,6 +187,7 @@ void GrblCtrl_Config::fillConfigDoc(JsonDocument& theDoc)
         theDoc[m_sWiFiSection][m_sStationSection][m_sNetworkSection][i][m_sSSIDKey] = getSSID(i);
         theDoc[m_sWiFiSection][m_sStationSection][m_sNetworkSection][i][m_sStPWdKey] = getSTPassword(i);
     }
+    theDoc[m_sWiFiSection][m_sStationSection][m_sConnectionTimeoutKey] = getConnectionTimeout();
 }
 
 bool GrblCtrl_Config::isAcessPoint() const
