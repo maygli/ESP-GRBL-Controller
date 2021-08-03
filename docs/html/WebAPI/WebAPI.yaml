@@ -1,0 +1,100 @@
+openapi: "3.0.2"
+info:
+  title: "MantaRay GRBL Web API"
+  description: "MantaRay GRBL controller Web API. GRBL controller based on esp8266 or esp32S."
+  version: "1.0"
+  contact: 
+    name: "Maygli"
+    url: "https://github.com/maygli/ESP-GRBL-Controller"
+    email: "mmaygli@gmail.com"
+paths:
+  /board_info:
+    get:
+      summary: "Returns board information"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/board_info_response'
+  /settings_wifi:
+    get:
+      summary: "Returns board wi-fi settings"
+      responses:
+        200:
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/settings_wifi"
+    put:
+      summary: "Set board wi-fi settings"
+      parameters:
+        - $ref: "#/components/parameters/settings_wifi_station_mode"
+      responses:
+        200:
+          description: "Wi-fi parameters is set sucessfully"
+          content:
+            plain/text:
+              schema:
+                type: "string"
+                example: "OK"
+        500:
+          description: "Wi-fi parameters can't set"
+          content:
+            plain/text:
+              schema:
+                type: "string"
+                example: "Error. Parameters are invalid"
+
+components:
+  parameters:
+    settings_wifi_station_mode:
+      name: "Wifi_station_mode"
+      in: "query"
+      description: "If true the controller is switched into station mode. false in Acess Point mode."
+      schema:
+        type: "boolean"
+
+      
+  
+  schemas:
+    board_info_response:
+      title: "Board info"
+      type: "object"
+      properties:
+        board_name:
+          type: "string"
+          description: "Board name"
+          example: "MantaRay GRBL"
+        board_hw_version:
+          type: "string"
+          description: "Board hardware version"
+          example: "v1.0.0"
+        board_sw_version:
+          type: "string"
+          description: "Board software version"
+          example: "v2.1.3"
+        board_desc:
+          type: "string"
+          description: "Board description"
+          example: "MantaRay GRBL controller based on esp8266"
+        manufacturer:
+          type: "string"
+          description: "Board manufacturer. Can contains any html text"
+          example: "Maygli e-mail:mmaygli@gmail.com"
+        copyright:
+          type: "string"
+          description: "Copyright"
+          example: "&copy; Maygli 2021"
+    settings_wifi:
+      title: "Wi-fi settings"
+      type: "object"
+      properties:
+        station_mode:
+          type: "boolean"
+          description: "true - station mode, false - access point mode"
+          example: "false"      
+    
+      

@@ -1,6 +1,7 @@
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
+var mime = require('mime');
 
 function generate_board_info()
 {
@@ -9,13 +10,15 @@ function generate_board_info()
   "board_hw_version": "v1.0.0",
   "board_sw_version": "v2.1.3",
   "board_desc": "MantaRay GRBL controller based on esp8266",
-  "manufacturer": "Maygli e-mail:mmaygli@gmail.com",
+  "manufacturer": "Maygli <a href=\"mailto:mmaygli@gmail.com\">mmaygli@gmail.com</a>",
   "copyright": "&copy; Maygli 2021"
 };
   return JSON.stringify(aBoardInfo)
 }
 
 http.createServer(function (req, res) {
+  console.log("Get request"); 
+  console.log(req.url); 
   var q = url.parse(req.url, true);
   var aPathName = q.pathname;
   if( aPathName == "/board_info" ){
@@ -36,7 +39,8 @@ http.createServer(function (req, res) {
       res.writeHead(404, {'Content-Type': 'text/html'});
       return res.end("404 Not Found");
     } 
-    res.writeHead(200, {'Content-Type': 'text/html'});
+    var aType = mime.getType(aPathName)
+    res.writeHead(200, {'Content-Type': aType});
     res.write(data);
     return res.end();
   });
