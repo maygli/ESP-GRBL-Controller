@@ -89,6 +89,7 @@ function clearActiveMainMenu(theClassName){
     aPageContainer = document.getElementById("page_content");
     if( aPageContainer ){
       aPageContainer.innerHTML = thePageText;
+      setLanguage(i18next.language);
     }
   }
 
@@ -126,3 +127,27 @@ function clearActiveMainMenu(theClassName){
       }
     }
  }
+
+function setPageInfo(thePageText) {
+  aPageContainer = document.getElementById("page_content");
+  if( aPageContainer ){
+    aPageContainer.innerHTML = thePageText;
+    updateInfo();
+    setLanguage(i18next.language);
+  }
+}
+
+function loadMenuInfoPage(theMenuItem)
+{
+  if( theMenuItem.hasAttribute("data-page") ){
+    aPageName = theMenuItem.getAttribute("data-page");
+    loadText(aPageName, setPageInfo);
+  }
+}
+
+function onMainMenuInfoClick(sender)
+{
+  updateSubmenus("", false);
+  updateMenuState(sender);
+  loadMenuInfoPage(sender);
+}

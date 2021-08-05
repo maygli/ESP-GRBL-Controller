@@ -95,11 +95,11 @@
             var aContent = document.getElementById("content");
             if(aContent.hidden === true ){
                aContent.hidden = false;
-               aButton.innerHTML = "- Firmware file decription";
+               aButton.innerHTML = "- Uploaded file decription";
             }
             else{
                aContent.hidden = true;
-               aButton.innerHTML = "+ Firmware file decription";
+               aButton.innerHTML = "+ Uploaded file decription";
             }
         }
        
@@ -114,6 +114,8 @@
             aFilenameInfo = document.getElementById("filename_info");
             aFilenameInfo.innerHTML = "File:  <b>" + aFile.name + "</b>";
             if( aFile.name.length > 31 ){
+                aLoadTotal = document.getElementById("loaded_n_total");
+                aLoadTotal.style.display = "none";
                 aStatus.innerHTML = "Can't upload file. Filename lenght shouldn't exceed 32 characters.";
                 aStatus.className = "error_msg";
                 aBtnClose = document.getElementById("button_close");
@@ -150,6 +152,7 @@
             aProgressBar = document.getElementById("progress_bar")
             aProgressBar.style.display="block";
             aLoadTotal = document.getElementById("loaded_n_total");
+            aLoadTotal.style.display = "block";
             aLoadTotal.innerHTML = "Uploaded " + event.loaded + " bytes of " + event.total;
             var aPercent = (event.loaded / event.total) * 100;
             aProgressBar.value = Math.round(aPercent);
@@ -200,13 +203,13 @@
 </head>
 <body>
     <h1 id="manta_title" class="manta_title">Manta Ray GRBL controller</h1>
-    <div><h2>Please select firmware file to upload to controller</h2></div>
+    <div><h2>Please select file to upload to controller</h2></div>
     <p/>
-    <button type="button" class="collapsible" id="collapsible" onclick="onExpandDesc()">+ Firmware file description</button>
+    <button type="button" class="collapsible" id="collapsible" onclick="onExpandDesc()">+ Uploaded file description</button>
     <div id="content" hidden="true">
         <hr/>
         <p/>
-             <h3>Firmware file is a tar file which can contains:</h3>
+             <h3>Uploaded file is a tar file which can contains:</h3>
         <p/>   
         <table>
 	    <tr><td><b>controller.bin</b></td><td>Grbl controller firmware</td></tr>

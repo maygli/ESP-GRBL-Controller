@@ -18,9 +18,16 @@ function generate_board_info()
 
 http.createServer(function (req, res) {
   console.log("Get request"); 
-  console.log(req.url); 
+  console.log(req.url);
+  console.log(req.method);
   var q = url.parse(req.url, true);
   var aPathName = q.pathname;
+  if( req.method == "POST" ){
+    console.log(req.body)
+    res.writeHead(200, {'Content-Type': "text/html"});
+    res.write("OK");
+    return res.end();
+  }
   if( aPathName == "/board_info" ){
     res.writeHead(200, {"Content-Type": "application/json"});
     var aData = generate_board_info();

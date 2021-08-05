@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="styles/manta_settings_upgrade.css"></link>
+<h3 id="settings_upgrade_title" class="manta_second_title"><u><span data-i18n="settings_upgrade_title">Upgrade firmware</span></u></h3>    
+<div><h4 data-i18n="settings_upgrade_please_select">Please select file to upload to controller</h4></div>
+    <p/>
+    <button type="button" class="collapsible" id="collapsible" onclick="onExpandDesc()"><span id="collapse_sign">+</span><span data-i18n="settings_upgrade_uploaded_desc"> Uploaded file description</span></button>
+    <div id="content" hidden="true">
+        <hr/>
+        <p/>
+             <h4 data-i18n="settings_firmware_file_title">Uploaded file is a tar file which can contains:</h4>
+        <p/>   
+        <table>
+	    <tr><td><b>controller.bin</b></td><td data-i18n="settings_upgrade_controller_firmware">Grbl controller (esp8266 or esp32) firmware</td></tr>
+	    <tr><td><b>grbl.bin</b></td><td data-i18n="settings_upgrade_board_firmware">Grbl board firmware (if supported)</td></tr>
+	    <tr><td><b>config.json</b></td><td  data-i18n="settings_upgrade_board_сonfiguration">Grbl controller configuration file</td></tr>
+	    <tr><td><b>*<b></td><td data-i18n="settings_upgrade_any_other">any other html/css/js files related to controller web application</td></tr> 
+        </table>
+        <h4 data-i18n="settings_upgrade_pay_attantion">Please pay attantion, filename length shouldn't exceed 32 characters</h4>
+        <p><span data-i18n="settings_upgrade_tar">Tar file can be prepared by</span><a href="https://www.7-zip.org">7z</a></p>
+
+        <hr>
+    </div>
+    <p/>
+    <div>
+        <input type="checkbox" name="Clear" id="clear" class="button" checked/>
+        <label for="clear" data-i18n="settings_upgrade_clear_memory">Clear controller memory before upload</label>
+        <br/>            
+        <input type="file" name="name" class="input_file" id="file" onchange="onUploadFile()">
+        <label for="file" class="button" data-i18n="settings_select_file">Select file</label>
+        <br/>
+        <p>&nbsp</p>
+        <div id="modal" class="modal">
+            <div id="upload_progress" class="upload_progress">
+                <h2 id="upload_title" class="manta_title" data-i18n="settings_upgrade_uploading_firmware">Uploading firmware</h2>
+                <p><span data-i18n="settings_upgrade_file">File</span>: <b id="filename_info"></b></p>
+                <progress id="progress_bar" value="0" max="100" style="display:none"></progress> 
+                <h3 id="status"></h3>
+                <p id="uploaded_cnt"><span data-i18n="settings_upgrade_uploaded">Uploaded</span>&nbsp;<span  id="loaded_current"></span>&nbsp;<span data-i18n="settings_upgrade_bytesof"> bytes of</span>&nbsp;<span id="loaded_n_total"></span> </p>             
+                <p>&nbsp<span class="button close" id="button_close" onclick="onCloseClick()" data-i18n="settings_upgrade_close">Close</span></p>
+            </div>
+        </div>
+    </div>
