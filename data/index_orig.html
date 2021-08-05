@@ -10,36 +10,40 @@
     <link rel="stylesheet" href="styles/manta_common.css"></link>
 </head>
 <body id="body" onload="onMainWindowLoaded()">
-    <div id="test_label"></div>
     <div class="manta_title">
-        <img src="images/manta_logo.png" class="manta_logo"></img> 
+        <img src="images/manta_logobw.png" class="manta_logo"></img> 
         <h2 id="boardname_id">Board name</h2>
-        <h2 id="hardware_version_id"></h2></div>
-    <div>
-    <div class="manta_topnav" id="myTopnav">
-        <a href="#Home" class="main_menu_item active" onclick="onMainMenuClick(this)">Home</a>
-        <a href="#Move" class="main_menu_item" onclick="onMainMenuClick(this)">Contact</a>
-        <div class="dropdown">
-            <button class="dropbtn">Settings
-                <i class="fa fa-caret-down"></i>
+        <h2 id="hardware_version_id"></h2>
+    </div>    
+    <div class="manta_topnav" id="mainMenu">
+        <div class="manta_menu_item active" id="mainMenuHome" onclick="onMainMenuClick(this)"  data-page="home.html"><img src="images/home.png"><span data-i18n="home">Home</span></div>
+        <div class="manta_menu_item" id="mainMenuSettings" onclick="onMainMenuClick(this)" data-submenu="settingsMenu" data-submenu-activate="true"><img src="images/settings.png"><span data-i18n="settings">Settings</span></div>
+        <div class="manta_menu_item" id="mainMenuConsole" onClick="onMainMenuClick(this)" data-submenu="consoleMenu"><img src="images/console.png"><span data-i18n="console">Console</span></div>
+        <div class="manta_menu_item" id="mainMenuAbout" onclick="onMainMenuClick(this)" data-page="info.html"><img src="images/info.png"><span data-i18n="info">About</span></div>
+        <div class="combobox lang_selector" id="lang_selector" onmouseover="onMouseOver(this)" onmouseout="onMouseOut(this)">
+            <button class="combobox_btn"><img src="images/ru.png"></img><span>Русский</span>
             </button>
-            <div class="dropdown-content">
-                <a href="#" class="main_menu_item" onclick="onMainMenuClick(this)">General</a>
-                <a href="#" class="main_menu_item" onclick="onMainMenuClick(this)">Wi-Fi</a>
-                <a href="#" class="main_menu_item" onclick="onMainMenuClick(this)">GRBL</a>
+            <div class="combobox-content">
+                <div class="combobox-item" onclick="onLangSelClicked(this)" data-lang="ru"><img src="images/ru.png"></img><span>Русский</span></div>
+                <div class="combobox-item" onClick="onLangSelClicked(this)" data-lang="en"><img src="images/us.png"></img><span>English</span></div>
             </div>
         </div>
-        <a href="#about" onclick="onMainMenuClick(this)" class="main_menu_item">About</a>
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
-        </div>
-    <p>
-    <ul>
-       <li id="wifi" onclick="onClick(this)">WiFi</li>
-       <li id="grbl" onclick="onClick(this)">GRBL</li>
-    <ul>
-    </p>
     </div>
-    <br>
+    <div class="manta_submenu hide" id="settingsMenu">
+        <div class="manta_settings_menu_item active" onclick="onSettingMenuItemClick(this)" data-page="settings_general.html"><span data-i18n="sett_general">General</span></div>
+        <div class="manta_settings_menu_item" onclick="onSettingMenuItemClick(this)" data-page="settings_wifi.html"><span data-i18n="sett_wifi">Wi-Fi</span></div>
+        <div class="manta_settings_menu_item" onClick="onSettingMenuItemClick(this)" data-page="settings_grbl.html"><span data-i18n="sett_grbl">Grbl</span></div>
+        <div class="manta_settings_menu_item" onclick="onSettingMenuItemClick(this)" data-page="settings_wifi.html"><span data-i18n="sett_upgrade">Upgrade</span></div>
+        <div class="manta_settings_menu_item" onClick="onSettingMenuItemClick(this)" data-page="settings_grbl.html"><span data-i18n="sett_sdcard">SD card</span></div>
+    </div>
+    <div class="manta_submenu hide" id="consoleMenu">
+        <div class="manta_menu_item active" onclick="onMainMenuClick(this)"><span data-i18n="cons_hide">Hide</span></div>
+        <div class="manta_menu_item" onclick="onMainMenuClick(this)"><span data-i18n="cons_top">Top</span></div>
+        <div class="manta_menu_item" onClick="onMainMenuClick(this)"><span data-i18n="cons_bottom">Bottom</span></div>
+        <div class="manta_menu_item" onclick="onMainMenuClick(this)"><span data-i18n="cons_left">Left</span></div>
+        <div class="manta_menu_item" onClick="onMainMenuClick(this)"><span data-i18n="cons_right">Right</span></div>
+    </div>
+    <div class="manta_content" id="page_content">Test</div>
     <footer class="manta_title footer" id="main_footer_id"></footer>
 </body>
 </html>
