@@ -1,6 +1,6 @@
 function onExpandDesc(){
-    var aColSign = document.getElementById("collapse_sign");
-    var aContent = document.getElementById("content");
+    let aColSign = document.getElementById("collapse_sign");
+    let aContent = document.getElementById("content");
     if(aContent.hidden === true ){
        aContent.hidden = false;
        aColSign.innerHTML = "-";
@@ -16,9 +16,9 @@ function onUploadFile(){
     aBtnClose = document.getElementById("button_close");
     aBtnClose.style.display = "none"
     aModal.style.display="block"
-    var aStatus = document.getElementById("status");
+    let aStatus = document.getElementById("status");
     aStatus.className = "normal_msg";
-    var aFile = document.getElementById("file").files[0];
+    let aFile = document.getElementById("file").files[0];
     aFilenameInfo = document.getElementById("filename_info");
     aFilenameInfo.innerHTML = aFile.name;
     if( aFile.name.length > 31 ){
@@ -30,10 +30,10 @@ function onUploadFile(){
         aBtnClose.style.display = "block"
         return false;
     }
-    var aParFormData = new FormData();
-    var aClear = document.getElementById("clear").checked;
+    let aParFormData = new FormData();
+    let aClear = document.getElementById("clear").checked;
     aParFormData.append("clear", aClear);
-    var aParReq = new XMLHttpRequest();
+    let aParReq = new XMLHttpRequest();
     aParReq.timeout = 5000;
     aParReq.open("POST", "upload_parameters"); 
     aParReq.send(aParFormData);
@@ -41,9 +41,9 @@ function onUploadFile(){
         if( aParReq.readyState != 4 ){
             return;
         }
-        var aFormData = new FormData();
+        let aFormData = new FormData();
         aFormData.append("file", aFile);
-        var aReq = new XMLHttpRequest();
+        let aReq = new XMLHttpRequest();
         aReq.upload.addEventListener("progress", onLoadProgress, false);
         aReq.addEventListener("load", onLoadComplete, false);
         aReq.addEventListener("error", onLoadError, false);
@@ -65,7 +65,7 @@ function onLoadProgress(event) {
     aLoadCurrent.innerHTML = event.loaded;
     aLoadTotal = document.getElementById("loaded_n_total");
     aLoadTotal.innerHTML = event.total;
-    var aPercent = (event.loaded / event.total) * 100;
+    let aPercent = (event.loaded / event.total) * 100;
     aProgressBar.value = Math.round(aPercent);
     aStatus = document.getElementById("status");
     aStatus.innerHTML = Math.round(aPercent) + i18next.t("settings_upgrade_percents");

@@ -1,8 +1,3 @@
-.manta_title {
-    text-align: center;
-    background: #2980b9;
-    color: #FFFFFF;
-    }
 .collapsible {
     background-color: #3F3F3F;
     color: #ffffff;
@@ -17,14 +12,6 @@
 #status {
     display: inline-block;
     padding: 2px;
-}
-.button{
-    display: inline-block;
-    padding: 2px;
-    background-color: #3F3F3F;
-    color: #ffffff;
-    border: 1px solid #000000;
-    border-radius: 4px;
 }
 .input_file{
     display: none;

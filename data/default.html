@@ -37,8 +37,8 @@
     </style>
     <script>
         function onExpandDesc(){
-            var aButton = document.getElementById("collapsible");
-            var aContent = document.getElementById("content");
+            let aButton = document.getElementById("collapsible");
+            let aContent = document.getElementById("content");
             if(aContent.hidden === true ){
                aContent.hidden = false;
                aButton.innerHTML = "- Firmware file decription";
@@ -50,11 +50,11 @@
         }
        
         function onUploadFile(){
-            var aFile = document.getElementById("file").files[0];
+            let aFile = document.getElementById("file").files[0];
   // alert(file.name+" | "+file.size+" | "+file.type);
-            var aFormData = new FormData();
+            let aFormData = new FormData();
             aFormData.append("file", file);
-            var aReq = new XMLHttpRequest();
+            let aReq = new XMLHttpRequest();
             aReq.upload.addEventListener("progress", onLoadProgress, false);
             aReq.addEventListener("load", onLoadComplete, false);
             aReq.addEventListener("error", onLoadError, false);
@@ -68,7 +68,7 @@
         function onLoadProgress(event) {
             document.getElementById("progress_bar").hidden=false;
             document.getElementById("loaded_n_total").innerHTML = "Uploaded " + event.loaded + " bytes of " + event.total;
-            var aPercent = (event.loaded / event.total) * 100;
+            let aPercent = (event.loaded / event.total) * 100;
             document.getElementById("progress_bar").value = Math.round(percent);
             aStatus = document.getElementById("status").innerHTML = Math.round(percent) + "% uploaded... please wait";
             aStatus.style.backgroundColor = transparent;

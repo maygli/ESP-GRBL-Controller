@@ -1,1 +1,115 @@
-<h2>SettingsGRBL</h2>
+<link rel="stylesheet" href="styles/manta_settings_wifi.css"></link>
+<h3 id="settings_grbl_title" class="manta_second_title">
+    <div class="tooltip"><u><span data-i18n="settings_grbl_title"></span></u>
+        <span class="tooltiptext"></span>
+    </div>
+</h3>
+<form action="settings_grbl" method="POST" onsubmit="return onSettingsPageSubmit(this, onSubmitResponseSettingsWiFi)">
+    <table>
+        <tr>
+            <td>$0</td><td><input type="text" name="grbl0"></input></td><td data-i18n="grbl0_info"></td>
+        </tr>
+        <tr>
+            <td>$1</td><td><input type="text" name="grbl1"></input></td><td data-i18n="grbl1_info"></td>
+        </tr>
+        <tr>
+            <td>$2</td><td><input type="text" name="grbl2"></input></td><td data-i18n="grbl2_info"></td>
+        </tr>
+        <tr>
+            <td>$3</td><td><input type="text" name="grbl3"></input></td><td data-i18n="grbl3_info"></td>
+        </tr>
+        <tr>
+            <td>$4</td><td><select name="grbl4"><option value="true" data-i18n="grbl_on"></option><option value="false"  data-i18n="grbl_off"></option></select></td><td data-i18n="grbl4_info"></td>
+        </tr>
+        <tr>
+            <td>$5</td><td><select name="grbl5"><option value="true" data-i18n="grbl_on"></option><option value="false"  data-i18n="grbl_off"></option></select></td><td data-i18n="grbl5_info"></td>
+        </tr>
+        <tr>
+            <td>$6</td><td><select name="grbl6"><option value="true" data-i18n="grbl_on"></option><option value="false"  data-i18n="grbl_off"></option></select></td><td data-i18n="grbl6_info"></td>
+        </tr>
+        <tr>
+            <td>$10</td><td><input type="text" name="grbl10"></input></td><td data-i18n="grbl10_info"></td>
+        </tr>
+        <tr>
+            <td>$11</td><td><input type="text" name="grbl11"></input></td><td data-i18n="grbl11_info"></td>
+        </tr>
+        <tr>
+            <td>$12</td><td><input type="text" name="grbl12"></input></td><td data-i18n="grbl12_info"></td>
+        </tr>
+        <tr>
+            <td>$13</td><td><select name="grbl13"><option value="true" data-i18n="grbl_on"></option><option value="false"  data-i18n="grbl_off"></option></select></td><td data-i18n="grbl13_info"></td>
+        </tr>
+        <tr>
+            <td>$20</td><td><select name="grbl20"><option value="true" data-i18n="grbl_on"></option><option value="false"  data-i18n="grbl_off"></option></select></td><td data-i18n="grbl20_info"></td>
+        </tr>
+        <tr>
+            <td>$21</td><td><select name="grbl21"><option value="true" data-i18n="grbl_on"></option><option value="false"  data-i18n="grbl_off"></option></select></td><td data-i18n="grbl21_info"></td>
+        </tr>
+        <tr>
+            <td>$22</td><td><select name="grbl22"><option value="true" data-i18n="grbl_on"></option><option value="false"  data-i18n="grbl_off"></option></select></td><td data-i18n="grbl22_info"></td>
+        </tr>
+        <tr>
+            <td>$23</td><td><input type="text" name="grbl23"></input></td><td data-i18n="grbl23_info"></td>
+        </tr>
+        <tr>
+            <td>$24</td><td><input type="text" name="grbl24"></input></td><td data-i18n="grbl24_info"></td>
+        </tr>
+        <tr>
+            <td>$25</td><td><input type="text" name="grbl25"></input></td><td data-i18n="grbl25_info"></td>
+        </tr>
+        <tr>
+            <td>$26</td><td><input type="text" name="grbl26"></input></td><td data-i18n="grbl26_info"></td>
+        </tr>
+        <tr>
+            <td>$27</td><td><input type="text" name="grbl27"></input></td><td data-i18n="grbl27_info"></td>
+        </tr>
+        <tr>
+            <td>$30</td><td><input type="text" name="grbl30"></input></td><td data-i18n="grbl30_info"></td>
+        </tr>
+        <tr>
+            <td>$31</td><td><input type="text" name="grbl31"></input></td><td data-i18n="grbl31_info"></td>
+        </tr>
+        <tr>
+            <td>$32</td><td><select name="grbl32"><option value="true" data-i18n="grbl_on"></option><option value="false"  data-i18n="grbl_off"></option></select></td><td data-i18n="grbl32_info"></td>
+        </tr>
+        <tr>
+            <td>$100</td><td><input type="text" name="grbl100"></input></td><td data-i18n="grbl100_info"></td>
+        </tr>
+        <tr>
+            <td>$101</td><td><input type="text" name="grbl101"></input></td><td data-i18n="grbl101_info"></td>
+        </tr>
+        <tr>
+            <td>$102</td><td><input type="text" name="grbl102"></input></td><td data-i18n="grbl102_info"></td>
+        </tr>
+        <tr>
+            <td>$110</td><td><input type="text" name="grbl110"></input></td><td data-i18n="grbl110_info"></td>
+        </tr>
+        <tr>
+            <td>$111</td><td><input type="text" name="grbl111"></input></td><td data-i18n="grbl111_info"></td>
+        </tr>
+        <tr>
+            <td>$112</td><td><input type="text" name="grbl112"></input></td><td data-i18n="grbl112_info"></td>
+        </tr>
+        <tr>
+            <td>$120</td><td><input type="text" name="grbl120"></input></td><td data-i18n="grbl120_info"></td>
+        </tr>
+        <tr>
+            <td>$121</td><td><input type="text" name="grbl121"></input></td><td data-i18n="grbl121_info"></td>
+        </tr>
+        <tr>
+            <td>$122</td><td><input type="text" name="grbl122"></input></td><td data-i18n="grbl122_info"></td>
+        </tr>
+        <tr>
+            <td>$130</td><td><input type="text" name="grbl130"></input></td><td data-i18n="grbl130_info"></td>
+        </tr>
+        <tr>
+            <td>$131</td><td><input type="text" name="grbl131"></input></td><td data-i18n="grbl131_info"></td>
+        </tr>
+        <tr>
+            <td>$132</td><td><input type="text" name="grbl132"></input></td><td data-i18n="grbl132_info"></td>
+        </tr>
+    </table>
+    <div class="server_message"><input type="submit" id="button_submit" class="button"></input><span id="submit_response" class="server_message_text"></span></div>
+    <br>
+    <p>&nbsp;</p>
+</form>

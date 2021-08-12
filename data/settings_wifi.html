@@ -1,1 +1,81 @@
-<h2>SettingsWifi</h2>
+<link rel="stylesheet" href="styles/manta_settings_wifi.css"></link>
+<h3 id="settings_wifi_title" class="manta_second_title">
+    <div class="tooltip"><u><span data-i18n="settings_wifi_title"></span></u>
+        <span class="tooltiptext">Controller can operates in two modes: Acess point and Station.</span>
+    </div>
+</h3>
+<form action="settings_wifi" method="POST" onsubmit="return onSettingsPageSubmit(this, onSubmitResponseSettingsWiFi)">
+    </script>
+    <table>
+        <tr>
+            <td>
+                <input type="radio" id="access_point_type" name="type_selector" value="ap" onchange="onConnectionType(this)" checked/>
+                <label for="access_point_type" data-i18n="access_point">Access point</label>
+            </td>
+            <td>
+                <input type="radio" id="station_type" name="type_selector" value="st" onchange="onConnectionType(this)"/>
+                <label for="station_type" data-i18n="station">Station</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="active_properties_group" id="ap_group">
+                <div>
+                    <table>
+                        <tr>
+                            <td data-i18n="ap_ssid">SSID </td><td><input type="text" name="ap_ssid" required></input></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="ap_pwd"  minlength="8">Password </td><td><input type="password" id="st_pwd_input" name="ap_pwd" required></input><img src="images/eye.png" id="st_pwd" onClick="onViewPwdClick(this)"></img></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="ap_ip">IP address</td><td><input type="text" onkeydown="return ipFilter(event)" minlength="7" maxlength="15" name="ap_ip" placeholder="xxx.xxx.xxx.xxx" required pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"></input></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="ap_netmask" required>Network mask</td><td><input type="text" onkeydown="return ipFilter(event)" minlength="7" maxlength="15"  name="ap_netmask"  placeholder="xxx.xxx.xxx.xxx"  required pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"></input></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="ap_gateway" required>Default gateway</td><td><input type="text" onkeydown="return ipFilter(event)" minlength="7" maxlength="15"  name="ap_gateway"  placeholder="xxx.xxx.xxx.xxx"  required pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"></input></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td>
+                <div class="properties_group"  id="st_group">
+                    <table>
+                        <tr>
+                            <td data-i18n="st_ssid1">SSID1</td><td><input type="text" name="st_ssid1" required></input></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_pwd1">Password1</td><td><input type="password" name="st_pwd1" required></input><img src="images/eye.png" onClick="onViewPwdClick(this)"></img></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_ssid2">SSID2</td><td><input type="text" name="st_ssid2"></input></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_pwd2">Password2</td><td><input type="password" name="st_pwd2"></input><img src="images/eye.png" onClick="onViewPwdClick(this)"></img></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_ssid3">SSID3</td><td><input type="text" name="st_ssid3"></input></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_pwd3">Password3</td><td><input type="password" name="st_pwd3"></input><img src="images/eye.png" onClick="onViewPwdClick(this)"></img></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_ssid4">SSID4</td><td><input type="text" name="st_ssid4"></input></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_pwd4">Password4</td><td><input type="password" name="st_pwd4"></input><img src="images/eye.png" onClick="onViewPwdClick(this)"></img></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_api">IP address</td><td><input type="text" onkeydown="return ipFilter(event)" minlength="7" maxlength="15" name="st_ip"  placeholder="xxx.xxx.xxx.xxx"  required pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"></input></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_timeout">Connection timeout, sec</td><td><input type="number" name="st_timeout" required></input></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="server_message"><input type="submit" id="button_submit" class="button"></input><span id="submit_response" class="server_message_text"></span></div>
+</form>

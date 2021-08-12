@@ -1,26 +1,24 @@
-function onMainWindowLoaded()
+async function onMainWindowLoaded()
 {
-
-    var language = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
+    let language = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
     i18next.init({
         lng: language,
         debug: true,
         resources: translations 
     });
-    loadJSON("board_info",loadBoardInfoCB);
-    var aDefAct = document.querySelector(".active");
+    let aBoardInfo = await loadData("board_info",false);
+    setMainWindowBoardInfo(aBoardInfo);
+    let aDefAct = document.querySelector(".active");
     if( aDefAct ){
-      onMainMenuClick(aDefAct);
+      onMainMenuClickWithUpdate(aDefAct);
     }
-    var aLang = language.split("-")[0];
+    let aLang = language.split("-")[0];
     setLanguage(aLang);
     updateLangSelector(aLang);
 }
 
-function loadBoardInfoCB(theBoardInfo)
+function setMainWindowBoardInfo(theBoardInfo)
 {
-    const lang = navigator.language;
-    console.log("======" + lang + "=======");
     let boardname = document.getElementById('boardname_id');
     boardname.innerHTML = theBoardInfo.board_name;
     let hwversion = document.getElementById("hardware_version_id")
@@ -31,11 +29,11 @@ function loadBoardInfoCB(theBoardInfo)
 
 function setLanguage(theLang){
   i18next.changeLanguage(theLang).then((t) => {
-    var aNeedTranslation = document.querySelectorAll("[data-i18n]");
-    for( var i = 0 ; i < aNeedTranslation.length ; i++ ){
-      var aTransEl = aNeedTranslation[i];
-      var aKey = aTransEl.getAttribute("data-i18n");
-      var aVal = t(aKey);
+    let aNeedTranslation = document.querySelectorAll("[data-i18n]");
+    for( let i = 0 ; i < aNeedTranslation.length ; i++ ){
+      let aTransEl = aNeedTranslation[i];
+      let aKey = aTransEl.getAttribute("data-i18n");
+      let aVal = t(aKey);
       aTransEl.innerHTML = aVal;
     }
   });
@@ -44,30 +42,33 @@ function setLanguage(theLang){
 function onLangSelClicked(sender)
 {
   onClickComboBoxItem(sender);
-  var aLang = sender.getAttribute("data-lang");
+  let aLang = sender.getAttribute("data-lang");
   setLanguage(aLang);
 }
 
-function clearActiveMainMenu(theClassName){
+function clearActiveMainMenu(theClassName, theGroup){
   anItems = document.getElementsByClassName(theClassName);
-  for( var i = 0 ; i < anItems.length ; i++ ){
-      anItems[i].className = theClassName;
+  for( let i = 0 ; i < anItems.length ; i++ ){
+      let aGroup = anItems[i].getAttribute("data-menu_group");
+      if( aGroup == theGroup )
+        anItems[i].className = theClassName;
   }
 }
 
   function updateSubmenus(theShowMenu, isShowDefault)
   {
-    var aSubMenus = document.querySelectorAll(".manta_submenu");
-    for( var i = 0 ; i < aSubMenus.length ; i++ ){
-      var aSubMenu = aSubMenus[i]; 
+    let aSubMenus = document.querySelectorAll(".manta_submenu");
+    for( let i = 0 ; i < aSubMenus.length ; i++ ){
+      let aSubMenu = aSubMenus[i]; 
       if( aSubMenu.hasAttribute("id") ){
-        var anId = aSubMenu.getAttribute("id");
+        let anId = aSubMenu.getAttribute("id");
         if( anId == theShowMenu ){
           aSubMenu.style.display = "inline-block";
           if(isShowDefault){
             anActItem = aSubMenu.querySelector(".active");
             if( anActItem ){
-              loadMenuPage(anActItem); 
+              loadMenuPage(anActItem);
+ //             loadMenuPage(anActItem); 
             }
           }
         }
@@ -80,36 +81,10 @@ function clearActiveMainMenu(theClassName){
 
   function updateMenuState( theMenuElement )
   {
-    var aClassName = theMenuElement.className.split(" ")[0];
-    clearActiveMainMenu(aClassName);
+    let aClassName = theMenuElement.className.split(" ")[0];
+    let aGroup = theMenuElement.getAttribute("data-menu_group");
+    clearActiveMainMenu(aClassName, aGroup);
     theMenuElement.className = aClassName + " active";
-  }
-
-  function setPage(thePageText) {
-    aPageContainer = document.getElementById("page_content");
-    if( aPageContainer ){
-      aPageContainer.innerHTML = thePageText;
-      setLanguage(i18next.language);
-    }
-  }
-
-  function loadMenuPage(theMenuItem)
-  {
-    if( theMenuItem.hasAttribute("data-page") ){
-      aPageName = theMenuItem.getAttribute("data-page");
-      loadText(aPageName, setPage);
-    }
-  }
-
-  function onMainMenuClick(sender) {
-    var aShowSubmenu = ""
-    if( sender.hasAttribute("data-submenu") ){
-      aShowSubmenu = sender.getAttribute("data-submenu");
-    }
-    var isShowDefault = sender.hasAttribute("data-submenu-activate");
-    updateSubmenus(aShowSubmenu, isShowDefault);
-    updateMenuState(sender);
-    loadMenuPage(sender);
   }
 
   function onSettingMenuItemClick(sender){
@@ -119,35 +94,15 @@ function clearActiveMainMenu(theClassName){
  
  function updateLangSelector(theLang)
  {
-    var aLangSel = document.getElementById("lang_selector");
+    let aLangSel = document.getElementById("lang_selector");
     if( aLangSel ){
-      var anItem = aLangSel.querySelector("[data-lang=" + theLang + "]");
+      let anItem = aLangSel.querySelector("[data-lang=" + theLang + "]");
       if( anItem ){
         onLangSelClicked(anItem);
       }
     }
  }
 
-function setPageInfo(thePageText) {
-  aPageContainer = document.getElementById("page_content");
-  if( aPageContainer ){
-    aPageContainer.innerHTML = thePageText;
-    updateInfo();
-    setLanguage(i18next.language);
-  }
-}
 
-function loadMenuInfoPage(theMenuItem)
-{
-  if( theMenuItem.hasAttribute("data-page") ){
-    aPageName = theMenuItem.getAttribute("data-page");
-    loadText(aPageName, setPageInfo);
-  }
-}
 
-function onMainMenuInfoClick(sender)
-{
-  updateSubmenus("", false);
-  updateMenuState(sender);
-  loadMenuInfoPage(sender);
-}
+
