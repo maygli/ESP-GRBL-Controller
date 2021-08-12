@@ -66,6 +66,7 @@ const translations = {
             "submit_fail" : "Fail",
 
             "settings_grbl_title":"GRBL settings",
+            "grbl_additional_info":"More information can be found at <a href=\"https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration\">Grbl github</a>",
             "grbl_off":"Off",
             "grbl_on":"On",
             "grbl0_info":"Step pulse, microseconds",
@@ -171,6 +172,7 @@ const translations = {
             "submit_fail" : "Ошибка",
 
             "settings_grbl_title":"Настройки GRBL",
+            "grbl_additional_info":"Более подробно<br><p>На русском <a href=\"http://users1.univer.omsk.su/voroshilov/pages/grbl/doc/settings.html\">Конфигурация GRBL</a></p><br><p>На английском <a href=\"https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration\">Grbl github</a>",
             "grbl_off":"Выключено",
             "grbl_on":"Включено",
             "grbl0_info":"Длительность импульса шага, микросекунд",
