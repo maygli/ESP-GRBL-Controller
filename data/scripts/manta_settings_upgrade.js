@@ -1,111 +1,65 @@
-function onExpandDesc(){
-    let aColSign = document.getElementById("collapse_sign");
-    let aContent = document.getElementById("content");
-    if(aContent.hidden === true ){
-       aContent.hidden = false;
-       aColSign.innerHTML = "-";
-    }
-    else{
-       aContent.hidden = true;
-       aColSign.innerHTML = "+";
-    }
-}
+import {PageController} from "./controllers/page_controller.js"
+import {ExpandableController} from "./controllers/expandable_controller.js"
+import {HttpProcessor} from "./http_processor.js"
+import {UploadDialogController} from "./controllers/upload_dialog_controller.js"
 
-function onUploadFile(){
-    aModal = document.getElementById("modal");
-    aBtnClose = document.getElementById("button_close");
-    aBtnClose.style.display = "none"
-    aModal.style.display="block"
-    let aStatus = document.getElementById("status");
-    aStatus.className = "normal_msg";
-    let aFile = document.getElementById("file").files[0];
-    aFilenameInfo = document.getElementById("filename_info");
-    aFilenameInfo.innerHTML = aFile.name;
-    if( aFile.name.length > 31 ){
-        aLoadBlock = document.getElementById("uploaded_cnt");
-        aLoadBlock.style.display="none";
-        aStatus.innerHTML = i18next.t("settings_upgrade_name_exceed");
-        aStatus.className = "error_msg";
-        aBtnClose = document.getElementById("button_close");
-        aBtnClose.style.display = "block"
-        return false;
+class UpgradeController extends PageController{
+    constructor(theEl){
+        super(theEl);
     }
-    let aParFormData = new FormData();
-    let aClear = document.getElementById("clear").checked;
-    aParFormData.append("clear", aClear);
-    let aParReq = new XMLHttpRequest();
-    aParReq.timeout = 5000;
-    aParReq.open("POST", "upload_parameters"); 
-    aParReq.send(aParFormData);
-    aParReq.onreadystatechange = function(){
-        if( aParReq.readyState != 4 ){
-            return;
+
+    async _upadteAfterLoad(){
+        super._upadteAfterLoad();
+        let aModal = this._m_BaseElement.querySelector('[data-controller_class="UploadDialogController"]');
+        this._m_UploadDialogController = new UploadDialogController(aModal);
+        this._m_UploadDialogController.hide();
+        this._m_DescContent = this._m_BaseElement.querySelector('[data-controller_class="ExpandableController"]');
+        this._m_ExpandableController = new ExpandableController(this._m_DescContent);
+        this._m_UploadButton =  this._m_BaseElement.querySelector('[data-controller_item="UploadButton"]');
+        this._m_UploadButton.addEventListener("change", this._onUploadFile.bind(this)); 
+        this._m_IsLoaded = true;
+     }
+
+    _onUploadFile(){
+        let aFile = document.getElementById("file").files[0];
+        document.getElementById("file").value="";
+        this._m_UploadDialogController.startUpload(aFile.name);
+        if( aFile.name.length > 31 ){
+            this._m_UploadDialogController.setError(i18next.t("settings_upgrade_name_exceed"));
+            return false;
         }
-        let aFormData = new FormData();
-        aFormData.append("file", aFile);
-        let aReq = new XMLHttpRequest();
-        aReq.upload.addEventListener("progress", onLoadProgress, false);
-        aReq.addEventListener("load", onLoadComplete, false);
-        aReq.addEventListener("error", onLoadError, false);
-        aReq.addEventListener("abort", onLoadAbort, false);
-        aReq.open("POST", "upload"); 
-        aReq.send(aFormData);
+        let aParFormData = new FormData();
+        let aClear = document.getElementById("clear").checked;
+        aParFormData.append("clear", aClear);
+    
+        HttpProcessor.uploadFile(aFile, aParFormData, 
+                                this._onLoadProgress.bind(this),
+                                this._onLoadComplete.bind(this),
+                                this._onLoadError.bind(this),
+                                this._onLoadAbort.bind(this)
+                                );
     }
 
-// alert(file.name+" | "+file.size+" | "+file.type);
-    return false;
-}
-
-function onLoadProgress(event) {
-    aProgressBar = document.getElementById("progress_bar")
-    aProgressBar.style.display="block";
-    aLoadBlock = document.getElementById("uploaded_cnt");
-    aLoadBlock.style.display="block";
-    aLoadCurrent = document.getElementById("loaded_current");
-    aLoadCurrent.innerHTML = event.loaded;
-    aLoadTotal = document.getElementById("loaded_n_total");
-    aLoadTotal.innerHTML = event.total;
-    let aPercent = (event.loaded / event.total) * 100;
-    aProgressBar.value = Math.round(aPercent);
-    aStatus = document.getElementById("status");
-    aStatus.innerHTML = Math.round(aPercent) + i18next.t("settings_upgrade_percents");
-//            aStatus.style.backgroundColor = "transparent";
-}
-
-function onLoadComplete(event) {
-    document.getElementById("progress_bar").style.display="none";
-    aStatus = document.getElementById("status");
-    aStatus.innerHTML = event.target.responseText;
-    if(  event.target.status == 200 ){
-        aStatus.className = "success_msg";
+    _onLoadProgress(event) {
+        this._m_UploadDialogController.setProgress(event.loaded, event.total);
     }
-    else{
-        aStatus.className = "error_msg";
+    
+    _onLoadComplete(event) {
+        if(  event.target.status >= 200 && event.target.status < 300 ){
+            this._m_UploadDialogController.setSuccess(event.target.responseText);
+        }
+        else{
+            this._m_UploadDialogController.setError(event.target.responseText);
+        }
     }
-    aBtnClose = document.getElementById("button_close");
-    aBtnClose.style.display = "block"
+    
+    _onLoadError(event) {
+        this._m_UploadDialogController.setError(i18next.t("settings_upgrade_failed"));
+    }
+    
+    _onLoadAbort(event) {
+        this._m_UploadDialogController.setError(i18next.t("settings_upgrade_aborted"));
+    }
 }
 
-function onLoadError(event) {
-    document.getElementById("progress_bar").style.display="none";
-    aStatus = document.getElementById("file").value=null;
-    aStatus = document.getElementById("status");
-    aStatus.innerHTML = i18next.t("settings_upgrade_failed");
-    aStatus.className = "error_msg";
-    aBtnClose = document.getElementById("button_close");
-    aBtnClose.style.display = "block"
-}
-
-function onLoadAbort(event) {
-    document.getElementById("progress_bar").style.display="none";
-    aStatus = document.getElementById("file").value=null;
-    aStatus.innerHTML = i18next.t("settings_upgrade_aborted");
-    aStatus.className = "error_msg";
-    aBtnClose = document.getElementById("button_close");
-    aBtnClose.style.display = "block"
-}
-
-function onCloseClick(){
-    aModal = document.getElementById("modal");
-    aModal.style.display = "none";
-}
+export {UpgradeController};

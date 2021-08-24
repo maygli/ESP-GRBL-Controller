@@ -36,9 +36,9 @@
   }
 
   function _objectSpread(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? Object(arguments[i]) : {};
-      var ownKeys = Object.keys(source);
+    for (let i = 1; i < arguments.length; i++) {
+      let source = arguments[i] != null ? Object(arguments[i]) : {};
+      let ownKeys = Object.keys(source);
 
       if (typeof Object.getOwnPropertySymbols === 'function') {
         ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
@@ -61,8 +61,8 @@
   }
 
   function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
+    for (let i = 0; i < props.length; i++) {
+      let descriptor = props[i];
       descriptor.enumerable = descriptor.enumerable || false;
       descriptor.configurable = true;
       if ("value" in descriptor) descriptor.writable = true;
@@ -123,7 +123,7 @@
     if (superClass) _setPrototypeOf(subClass, superClass);
   }
 
-  var consoleLogger = {
+  let consoleLogger = {
     type: 'logger',
     log: function log(args) {
       this.output('log', args);

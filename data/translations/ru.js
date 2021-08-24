@@ -103,6 +103,10 @@ const translations = {
             "grbl130_info":"X Max travel, mm",
             "grbl131_info":"Y Max travel, mm",
             "grbl132_info":"Z Max travel, mm",
+
+            "sett_sdcard":"SD card",
+            "no_sd_warning":"SD card is not detected",
+            "please_insert_card":"Please insert SD card",
         }
     },
     "ru": {
@@ -209,6 +213,10 @@ const translations = {
             "grbl130_info":"Максимальное перемещение по X, мм",
             "grbl131_info":"Максимальное перемещение по Y, мм",
             "grbl132_info":"Максимальное перемещение по Z, мм",
+
+            "sett_sdcard":"SD карта",
+            "no_sd_warning":"SD карта не обнаружена",
+            "please_insert_card":"Вставьте пожалуйста SD карту",
         }
     }
 };

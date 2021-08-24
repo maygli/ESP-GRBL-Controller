@@ -4,6 +4,12 @@
   color: #FFFFFF;
 }
 
+.error_title {
+  text-align: center;
+  background: darkred;
+  color: #FFFFFF;
+}
+
 .manta_second_title {
     text-align: center;
 } 
@@ -26,6 +32,10 @@
     border-radius: 4px;
 }
 
+.button:hover{
+  background-color: #2980b9;
+}
+
 .footer {
     display: flex;
     justify-content: center;
@@ -44,6 +54,7 @@
     overflow: hidden;
     vertical-align: middle;
     width: 100%;
+    display: inline-block;
 /*    align-items:center;*/
   }
 
@@ -71,7 +82,8 @@
     justify-content: right;
     align-items: right;
     text-align: left;
-    position: absolute;
+  /*  position: absolute;*/
+    float:right;
     right: 20px;
     z-index: 2;
     font-size: 17px
@@ -146,3 +158,36 @@
     color:white;
 }
 
+/********** Modal window ******************/
+.modal {
+  display: block; /* Hidden by default */
+  position: absolute; /* Stay in place */
+  z-index: 10; /* Sit on top */
+/*  padding-top: 30%; /* Location of the box */
+/*  padding-bottom: 50%;*/
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+  /* Modal Content */
+.modal_content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 2px;
+  margin-top: 10%;
+  padding-top: 0;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.console_window {
+  display:block;
+  height:100%;
+  width:100%;
+  border: 2px solid black;
+}

@@ -1,4 +1,19 @@
-async function onMainWindowLoaded()
+import {PasswordController} from "./controllers/password_controller.js"
+import {PageController,ParametersPageController,FormPageController} from "./controllers/page_controller.js"
+import {StackController} from "./controllers/stack_controller.js"
+import {SettingsWifiPageController} from "./manta_settings_wifi.js"
+import {LanguageSelector} from "./language_selector.js"
+import {Translator} from "./translator.js"
+import {InfoPageController} from "./manta_settings_info.js"
+import {MantaMainMenu} from "./manta_main_menu.js"
+import {SettingsMenu} from "./manta_settings_menu.js"
+import {ConsoleController} from "./manta_console.js"
+import {UpgradeController} from "./manta_settings_upgrade.js" 
+import {SDController} from "./manta_settings_sd.js"
+import {DataUpdater} from "./data_updater.js"
+import {HttpProcessor} from "./http_processor.js"
+
+export async function onMainWindowLoaded()
 {
     let language = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
     i18next.init({
@@ -6,15 +21,77 @@ async function onMainWindowLoaded()
         debug: true,
         resources: translations 
     });
-    let aBoardInfo = await loadData("board_info",false);
+    let aBoardInfo = await HttpProcessor.loadData("board_info",false);
     setMainWindowBoardInfo(aBoardInfo);
     let aDefAct = document.querySelector(".active");
-    if( aDefAct ){
-      onMainMenuClickWithUpdate(aDefAct);
-    }
+ //   if( aDefAct ){
+ //     onMainMenuClickWithUpdate(aDefAct);
+ //   }
     let aLang = language.split("-")[0];
-    setLanguage(aLang);
-    updateLangSelector(aLang);
+    Translator.translate(aLang, document);
+    let anEl = document.querySelector("#lang_selector");
+    let aLangSel = new LanguageSelector(anEl);
+    aLangSel.setCurrentItem(language);
+ //   updateLangSelector(aLang);
+
+    let aPagesContent = document.getElementById("pages");
+    let aPagesStack = new StackController(aPagesContent);
+    let aDataUpdater = new DataUpdater();
+    let aReqParams = new Object();
+    aReqParams.url = "filesystem";
+    aReqParams.interval = 3;
+    aDataUpdater.registerDataReq("FileSystem", aReqParams);
+
+    let aConsoleEl = document.querySelector("#manta_console");
+    let aConsController = new ConsoleController(aConsoleEl);
+    aPagesStack.addPageController("main_menu_console",aConsController);
+
+    let aWiFiEl = document.querySelector("#manta_settings_wifi");
+    let aWiFiSett = new SettingsWifiPageController(aWiFiEl);
+    aPagesStack.addPageController("settings_menu_wifi", aWiFiSett)
+
+    let aGrblEl = document.querySelector("#manta_settings_grbl");
+    let aGrblSett = new FormPageController(aGrblEl);
+    aPagesStack.addPageController("settings_menu_grbl", aGrblSett);
+
+    let anUpgradeEl = document.querySelector("#manta_settings_upgrade");
+    let anUpgradeSett = new UpgradeController(anUpgradeEl);
+    aPagesStack.addPageController("settings_menu_upgrade", anUpgradeSett);
+
+    let aSDEl = document.querySelector("#manta_settings_sd");
+    let aSDSett = new SDController(aSDEl);
+    aPagesStack.addPageController("settings_menu_sd", aSDSett);
+
+    let anInfoEl = document.querySelector("#manta_info");
+    let anInfoSett = new InfoPageController(anInfoEl);
+    aPagesStack.addPageController("main_menu_about", anInfoSett);
+
+    let aMainMenu = document.querySelector("#main_menu");
+    let aMainMenuController = new MantaMainMenu(aMainMenu);
+    aMainMenuController.setStackController(aPagesStack);
+    
+    let aSettMenuEl = document.querySelector("#settings_menu");
+    let aSettingsMenu = new SettingsMenu(aSettMenuEl);
+    aSettingsMenu.setStackController(aPagesStack);
+    aMainMenuController.setSettingsMenuController(aSettingsMenu);
+
+//    let aMenuController = new MenuController(null);
+/*    let aMenuEl = document.getElementById("main_menu");
+    let aMainMenuController = new MenuController(aMenuEl);
+    
+    let aHomeEl = document.getElementById("main_menu_home");
+    let aHomeContent = document.getElementById("manta_home");
+    let aHomeController = new PageController(aHomeEl,aMainMenuController,aHomeContent,"home.html");
+
+    let aSettEl = document.getElementById("main_menu_settings");
+    let aSettingsController = new MenuItemController(aSettEl,aMainMenuController);
+*/
+//    let aController = new LoadDataPageController("info.html","manta_home","");
+//    anEl.controller = aController;
+//    aMenuController.addMenuItem(anEl, aController);
+
+//    anEl.onclick = aController.activate.bind(aController);
+//    setInterval(onTimer,1000);
 }
 
 function setMainWindowBoardInfo(theBoardInfo)
@@ -26,82 +103,6 @@ function setMainWindowBoardInfo(theBoardInfo)
     let aCopyRight = document.getElementById("main_footer_id")
     aCopyRight.innerHTML = theBoardInfo.copyright;
 }
-
-function setLanguage(theLang){
-  i18next.changeLanguage(theLang).then((t) => {
-    let aNeedTranslation = document.querySelectorAll("[data-i18n]");
-    for( let i = 0 ; i < aNeedTranslation.length ; i++ ){
-      let aTransEl = aNeedTranslation[i];
-      let aKey = aTransEl.getAttribute("data-i18n");
-      let aVal = t(aKey);
-      aTransEl.innerHTML = aVal;
-    }
-  });
-}
-
-function onLangSelClicked(sender)
-{
-  onClickComboBoxItem(sender);
-  let aLang = sender.getAttribute("data-lang");
-  setLanguage(aLang);
-}
-
-function clearActiveMainMenu(theClassName, theGroup){
-  anItems = document.getElementsByClassName(theClassName);
-  for( let i = 0 ; i < anItems.length ; i++ ){
-      let aGroup = anItems[i].getAttribute("data-menu_group");
-      if( aGroup == theGroup )
-        anItems[i].className = theClassName;
-  }
-}
-
-  function updateSubmenus(theShowMenu, isShowDefault)
-  {
-    let aSubMenus = document.querySelectorAll(".manta_submenu");
-    for( let i = 0 ; i < aSubMenus.length ; i++ ){
-      let aSubMenu = aSubMenus[i]; 
-      if( aSubMenu.hasAttribute("id") ){
-        let anId = aSubMenu.getAttribute("id");
-        if( anId == theShowMenu ){
-          aSubMenu.style.display = "inline-block";
-          if(isShowDefault){
-            anActItem = aSubMenu.querySelector(".active");
-            if( anActItem ){
-              loadMenuPage(anActItem);
- //             loadMenuPage(anActItem); 
-            }
-          }
-        }
-        else{
-          aSubMenu.style.display = "none";
-        }
-      }
-    }
-  }
-
-  function updateMenuState( theMenuElement )
-  {
-    let aClassName = theMenuElement.className.split(" ")[0];
-    let aGroup = theMenuElement.getAttribute("data-menu_group");
-    clearActiveMainMenu(aClassName, aGroup);
-    theMenuElement.className = aClassName + " active";
-  }
-
-  function onSettingMenuItemClick(sender){
-    updateMenuState(sender);
-    loadMenuPage(sender);
-  }
- 
- function updateLangSelector(theLang)
- {
-    let aLangSel = document.getElementById("lang_selector");
-    if( aLangSel ){
-      let anItem = aLangSel.querySelector("[data-lang=" + theLang + "]");
-      if( anItem ){
-        onLangSelClicked(anItem);
-      }
-    }
- }
 
 
 

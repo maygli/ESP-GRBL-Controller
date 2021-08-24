@@ -78,6 +78,13 @@ function generate_settings_grbl(){
   return JSON.stringify(aGrblSettings)
 }
 
+function get_filesystem_data(thePath){
+  console.log("Request filesystem data. Path="+thePath);
+  let aRawData = fs.readFileSync('fs_config.json');
+  let aFsObject = JSON.parse(aRawData);  
+  return JSON.stringify(aFsObject);
+}
+
 http.createServer(function (req, res) {
   console.log("Get request"); 
   console.log(req.url);
@@ -101,6 +108,16 @@ http.createServer(function (req, res) {
       return res.end("ok");
     }
     return;
+  }
+  if( aPathName == "/filesystem"){
+    aParam = q.query;
+    console.log("Query params=",aParam);
+    aPath = aParam["path"]
+    console.log("Path=",aPath);    
+    var aData = get_filesystem_data(aPath);
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.write(aData);
+    return res.end();
   }
   if( aPathName == "/settings_wifi"){
     res.writeHead(200, {"Content-Type": "application/json"});

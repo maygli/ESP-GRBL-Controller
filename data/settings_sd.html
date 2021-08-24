@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="styles/manta_settings_sd.css"></link>
+<h3 id="settings_info_title" class="manta_second_title"><u><span data-i18n="SD_card_title">About</span></u></h3>
+<div class="test_class">
+<div>
+    <span class="button" onclick="buildPath(this)">/</span><span class="button" onclick="buildPath(this)">SD</span>/<span class="button" onclick="buildPath(this)">G-codes</span>/
+</div>
+<div class="file_selector">
+    <div class="sd_toolbar"><img class="tool_button" src="images/add_folder.png" onclick="displayNoSDWarning(true)"></img><img src="images/upload_file.png"  onclick="displayUploadProgress(true)"></img></div>
+    <table>
+        <tr><td>....</td><td><td></td></tr>
+        <tr><td class="file_cell"><img src="images/folder.png"><td>Folder1</td></td><td>345789</td></td></tr>
+        <tr><td><img src="images/file.png"></td><td>File2</td><td>345789</td></td></tr>
+        <tr><td><img src="images/file.png"></td><td>File2</td><td>345789</td></td></tr>
+    </table>
+</div>
+<div><spa id="sd_free_space">1987647 bytes/32567890 bytes</span></div>
+<br>
+<div>&nbsp;</div>
+<div id="no_sd_panel" class="modal"  data-controller_class="BaseController">
+    <div id="no_sd_warning" class="modal_content">
+        <h2 id="upload_title" class="error_title" data-i18n="no_sd_warning"></h2>
+        <span data-i18n="please_insert_card"></span>
+    </div>
+</div>
+<div id="upload_progress" class="modal" data-controller_class="UploadDialogController">
+    <div id="modal_content" class="modal_content">
+        <h2 id="upload_title" class="manta_title" data-i18n="settings_upgrade_uploading_firmware">Uploading firmware</h2>
+        <p><span data-i18n="settings_upgrade_file">File</span>: <b id="filename_info" data-controller_item="FileName"></b></p>
+        <progress id="progress_bar" value="0" max="100" style="display:none" data-controller_item="ProgressBar"></progress> 
+        <h3 id="status" data-controller_item="StatusLbl"></h3>
+        <p id="uploaded_cnt" data-controller_item="UploadMsg"><span data-i18n="settings_upgrade_uploaded">Uploaded</span>&nbsp;<span  id="loaded_current" data-controller_item="LoadCurrent">0</span>&nbsp;<span data-i18n="settings_upgrade_bytesof"> bytes of</span>&nbsp;<span id="loaded_n_total"  data-controller_item="LoadTotal">0</span> </p>             
+        <p>&nbsp<span class="button close" id="button_close" data-i18n="settings_upgrade_close" data-controller_item="CloseButton">Close</span></p>
+    </div>
+</div>
+</div>

@@ -1,60 +1,38 @@
-function onConnectionType(theElement){
-    let aAPCheckBox = document.getElementById("access_point_type");
-    let aAPGroup = document.getElementById("ap_group");
-    let aStGroup = document.getElementById("st_group");
-    if( aAPCheckBox.checked){
-        aAPGroup.className="active_properties_group";
-        aStGroup.className="properties_group";
-    }
-    else{
-        aAPGroup.className="properties_group";
-        aStGroup.className="active_properties_group";
-    }
-}
+import {FormPageController} from "./controllers/page_controller.js"
+import {PasswordController} from "./controllers/password_controller.js"
 
-function onViewPwdClick(theElement)
-{
-    let anInput = theElement.previousSibling;
-    if( anInput ){
-        let aType = anInput.getAttribute("type");
-        if( aType == "text" ){
-            anInput.setAttribute("type", "password");
-            theElement.setAttribute("src","images/eye.png")
-        }
-        if( aType == "password" ){
-            anInput.setAttribute("type", "text");
-            theElement.setAttribute("src","images/close_eye.png")
+class SettingsWifiPageController extends FormPageController{
+    constructor(theContentEl){
+        super(theContentEl, "settings_wifi.html", "settings_wifi");
+    }
+
+    async setPageParameters(theInfo){
+        await super.setPageParameters(theInfo);
+        let anAPRadio = this._m_BaseElement.querySelector("#access_point_type");
+        anAPRadio.onchange = this._onConnectionType.bind(this); 
+        let aStRadio = this._m_BaseElement.querySelector("#station_type");
+        aStRadio.onchange = this._onConnectionType.bind(this); 
+        this._onConnectionType();
+        let aPwds = this._m_BaseElement.querySelectorAll('[data-controller_class="PasswordController"]');
+        for( let i=0; i< aPwds.length ; i++ ){
+            let anEl = aPwds[i];
+            let aController = new PasswordController(anEl); 
         }
     }
-}
 
-function onSubmitResponseSettingsWiFi(theText, theResponseCode)
-{
-    anEl = document.getElementById("submit_response");
-    if( anEl ){
-        anEl.style.display = "inline-block";
-        if( theResponseCode == 200 ){
-            anEl.className = "server_message_text send_success";
-            anEl.innerHTML = i18next.t("submit_suceess");
+    _onConnectionType(){
+        let aAPCheckBox = this._m_BaseElement.querySelector("#access_point_type");
+        let aAPGroup = this._m_BaseElement.querySelector("#ap_group");
+        let aStGroup = this._m_BaseElement.querySelector("#st_group");
+        if( aAPCheckBox.checked){
+            aAPGroup.className="active_properties_group";
+            aStGroup.className="properties_group";
         }
         else{
-            anEl.className = "server_message_text send_fail";
-            anEl.innerHTML = i18next.t("submit_fail");
+            aAPGroup.className="properties_group";
+            aStGroup.className="active_properties_group";
         }
-        setTimeout(onHideServerMsg, 2000);
     }
 }
 
-function onHideServerMsg()
-{
-    anEl = document.getElementById("submit_response");
-    if( anEl ){
-        anEl.style.display = "none";
-    }
-}
-
-function updateWiFiSettings(theInfo)
-{
-    updateForm(theInfo); 
-    onConnectionType();
-}
+export {SettingsWifiPageController};
