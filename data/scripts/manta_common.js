@@ -16,16 +16,5 @@ function ipFilter(event)
     return true;
 }
 
-function printBytes(theBytes) {
-    var aSizes = ['B', 'K', 'M', 'G', 'T', 'P'];
-    for (var i = 0; i < aSizes.length; i++) {
-      if (theBytes < 1024) {
-        return theBytes + ' ' + aSizes[i];
-      } else {
-        theBytes = parseFloat(theBytes / 1024).toFixed(2)
-      }
-    }
-    return theBytes + ' P';
-}
 
 

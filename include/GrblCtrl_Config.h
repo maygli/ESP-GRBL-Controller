@@ -1,5 +1,8 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+
+#ifndef GRBL_CTRL_CONFIG_H
+#define GRBL_CTRL_CONFIG_H
+
+#define ARDUINOJSON_USE_LONG_LONG  1
 
 #include <LittleFS.h>
 #include <ArduinoJson.h>

@@ -1,5 +1,5 @@
 {
-  "mounted": false,
-  "volume_size": 1098578,
-  "free_space" : 10241024
+  "grbl_connected" : "true",
+  "sd_mounted" : "true",
+  "done" : "100",
 }

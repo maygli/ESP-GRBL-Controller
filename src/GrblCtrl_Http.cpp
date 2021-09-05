@@ -1,6 +1,10 @@
+#define ARDUINOJSON_USE_LONG_LONG  1
+
 #include "GrblCtrl_Http.h"
 #include "GrblCtrl_Debug.h"
-#include "ArduinoJson.h"
+#include "GrblCtrl_BoardInfo.h"
+
+#include <ArduinoJson.h>
 
 GrblCtrl_Http::GrblCtrl_Http() :
     m_isClear(false), m_HtmlFS(NULL), m_Config(NULL) 
@@ -17,6 +21,11 @@ GrblCtrl_Http::GrblCtrl_Http(GrblCtrl_Config* theConfig, FS* theFS) :
 void GrblCtrl_Http::setConfig(GrblCtrl_Config* theConfig)
 {
     m_Config = theConfig;
+}
+
+void GrblCtrl_Http::setSDManager(GrblCtrl_SDManager* theManager)
+{
+  m_SDManager = theManager;
 }
 
 void GrblCtrl_Http::setFileSystem(FS* theFS)
@@ -85,7 +94,8 @@ void GrblCtrl_Http::init()
   } else {
     DEBUG_PRINT_LN("Error setting up MDNS responder!");
   }
-  m_Server.on("/boardinfo",std::bind(&GrblCtrl_Http::onBoardInfo,this));
+  m_Server.on("/board_info",std::bind(&GrblCtrl_Http::onBoardInfo,this));
+  m_Server.on("/system_info",std::bind(&GrblCtrl_Http::onSystemInfo,this));
   m_Server.onNotFound(std::bind(&GrblCtrl_Http::onNotFound, this));
 
   m_Server.on("/upload", HTTP_POST, std::bind(&GrblCtrl_Http::onUploadFirmwareFinished, this), std::bind(&GrblCtrl_Http::onUploadFirmware, this) );
@@ -171,12 +181,30 @@ void GrblCtrl_Http::onNotFound()
 
 void GrblCtrl_Http::onBoardInfo()
 {
-  DynamicJsonDocument aDoc(256);
-  aDoc["board_name"] = "MantaRay";
-  aDoc["hardware_version"] = "v3.0";
-  aDoc["software_version"] = "v1.0";
-  aDoc["fabricant"] = "Maygli mmaygli@gmail.com";
+  DynamicJsonDocument aDoc(384);
+  aDoc["board_name"] = BOARD_NAME;
+  aDoc["board_hw_version"] = BOARD_HW_VERSION;
+  aDoc["board_sw_version"] = BOARD_SW_VERSION;
+  aDoc["board_desc"] = BOARD_DESC;
+  aDoc["manufacturer"] = BOARD_MANUFACTURER;
+  aDoc["copyright"] = BOARD_COPYRIGHT;
+
   String anOut; 
+  serializeJson(aDoc, anOut);
+  m_Server.send(200, "application/json", anOut);
+}
+
+void GrblCtrl_Http::onSystemInfo()
+{
+  StaticJsonDocument<96> aDoc;
+  aDoc["grbl_connected"] = true;
+
+  JsonObject aSdCard = aDoc.createNestedObject("sd_card");
+  aSdCard["mounted"] = m_SDManager->isInserted();
+  aSdCard["total_size"] = m_SDManager->getTotalSize();
+  aSdCard["free_space"] = m_SDManager->getFreeSpace();
+  aDoc["done"] = 100;
+  String anOut;
   serializeJson(aDoc, anOut);
   m_Server.send(200, "application/json", anOut);
 }

@@ -32,7 +32,7 @@ class UpgradeController extends PageController{
         let aClear = document.getElementById("clear").checked;
         aParFormData.append("clear", aClear);
     
-        HttpProcessor.uploadFile(aFile, aParFormData, 
+        HttpProcessor.uploadFile(aFile, aParFormData, "internal_upload",
                                 this._onLoadProgress.bind(this),
                                 this._onLoadComplete.bind(this),
                                 this._onLoadError.bind(this),

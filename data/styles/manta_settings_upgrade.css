@@ -31,19 +31,4 @@
     padding-left:0px;
 }
 
-.close {
-    float: right;
-    font-weight: bold;
-}
 
-.error_msg{
-    background-color: #f8cbad;
-}
-
-.success_msg{
-    background-color: seagreen;
-}
-
-.normal_msg{
-    background-color: transparent;
-}

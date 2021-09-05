@@ -20,8 +20,13 @@ class HttpProcessor{
     static async sendFormData(theURL, theForm){
         let aFormData = new FormData(theForm);
         let aData = {};
-        for (let aTuple of aFormData.entries()) aData[aTuple[0]] = aTuple[1]; 
-        let aSendText = JSON.stringify(aData); 
+        for (let aTuple of aFormData.entries()) aData[aTuple[0]] = aTuple[1];
+        let aRes = await this.sendPostJSON(theURL,aData); 
+        return aRes;
+    }
+
+    static async sendPostJSON(theURL, theJSON){
+        let aSendText = JSON.stringify(theJSON);
         let aResponse = await fetch(theURL, {
             method: "POST",
             headers: {
@@ -35,7 +40,7 @@ class HttpProcessor{
         return aResponse.statusText;
     }
 
-    static uploadFile( theFileName, theParams, theLoadProgressCB, theLoadCompleteCB, theLoadErrCB, theLoadAbortCB ){
+    static uploadFile( theFile, theRequest, theParams, theLoadProgressCB, theLoadCompleteCB, theLoadErrCB, theLoadAbortCB ){
         let aParReq = new XMLHttpRequest();
         aParReq.timeout = 5000;
         aParReq.open("POST", "upload_parameters"); 
@@ -45,13 +50,13 @@ class HttpProcessor{
                 return;
             }
             let aFormData = new FormData();
-            aFormData.append("file", theFileName);
+            aFormData.append("file", theFile);
             let aReq = new XMLHttpRequest();
             aReq.upload.addEventListener("progress", theLoadProgressCB, false);
             aReq.addEventListener("load", theLoadCompleteCB, false);
             aReq.addEventListener("error", theLoadErrCB, false);
             aReq.addEventListener("abort", theLoadAbortCB, false);
-            aReq.open("POST", "upload"); 
+            aReq.open("POST", theRequest); 
             aReq.send(aFormData);
         }
     }

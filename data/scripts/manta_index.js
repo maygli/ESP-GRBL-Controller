@@ -12,6 +12,7 @@ import {UpgradeController} from "./manta_settings_upgrade.js"
 import {SDController} from "./manta_settings_sd.js"
 import {DataUpdater} from "./data_updater.js"
 import {HttpProcessor} from "./http_processor.js"
+import {ConnectionController} from "./connection_controller.js"
 
 export async function onMainWindowLoaded()
 {
@@ -38,9 +39,10 @@ export async function onMainWindowLoaded()
     let aPagesStack = new StackController(aPagesContent);
     let aDataUpdater = new DataUpdater();
     let aReqParams = new Object();
-    aReqParams.url = "filesystem";
-    aReqParams.interval = 3;
-    aDataUpdater.registerDataReq("FileSystem", aReqParams);
+
+    let aConnImg = document.querySelector('[data-controller_class="ConnectionController"]');
+    let aConnController = new ConnectionController(aConnImg);
+    aConnController.setDataUpdater(aDataUpdater);
 
     let aConsoleEl = document.querySelector("#manta_console");
     let aConsController = new ConsoleController(aConsoleEl);
@@ -60,6 +62,7 @@ export async function onMainWindowLoaded()
 
     let aSDEl = document.querySelector("#manta_settings_sd");
     let aSDSett = new SDController(aSDEl);
+    aSDSett.setDataUpdater(aDataUpdater);
     aPagesStack.addPageController("settings_menu_sd", aSDSett);
 
     let anInfoEl = document.querySelector("#manta_info");

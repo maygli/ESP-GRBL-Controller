@@ -107,6 +107,18 @@ const translations = {
             "sett_sdcard":"SD card",
             "no_sd_warning":"SD card is not detected",
             "please_insert_card":"Please insert SD card",
+            "sd_total_size":"Total size:", 
+            "sd_free_space":"/Free space:", 
+            "rename_file_title" : "Rename file/folder",
+            "settings_rename_file" : "File/folder:",        
+            "new_name" : "New name",
+            "button_ok" : "Ok",
+            "button_cancel" : "Cancel",
+            "new_folder" : "Create new folder",
+            "folder_name" : "Name",
+            "empty_filename_error":"File name can not be empty",
+            "incorrect_file_name":"Incorrect file name",
+            "file_already_exists":"File with this name already exists",
         }
     },
     "ru": {
@@ -217,6 +229,20 @@ const translations = {
             "sett_sdcard":"SD карта",
             "no_sd_warning":"SD карта не обнаружена",
             "please_insert_card":"Вставьте пожалуйста SD карту",
+            "sd_total_size":"Емкость карты:", 
+            "sd_free_space":"/Свободное место:",           
+            "rename_file_title" : "Переименовать файл/папку",  
+            "settings_rename_file" : "Файл/папка:",        
+            "new_name" : "Новое имя",
+            "button_ok" : "Ok",
+            "button_cancel" : "Отменить",
+
+            "new_folder" : "Создать новую папку",
+            "folder_name" : "Имя",
+
+            "empty_filename_error":"Имя файла не может быть пустым",
+            "incorrect_file_name":"Некорректное имя файла",
+            "file_already_exists":"Файл с таким именем уже существует",
         }
     }
 };

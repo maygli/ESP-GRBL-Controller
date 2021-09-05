@@ -127,7 +127,7 @@
     color:black;
     min-width:120px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 2;
+    z-index: 20;
  }
 
  .combobox-content a{
@@ -161,7 +161,7 @@
 /********** Modal window ******************/
 .modal {
   display: block; /* Hidden by default */
-  position: absolute; /* Stay in place */
+  position: fixed; /* Stay in place */
   z-index: 10; /* Sit on top */
 /*  padding-top: 30%; /* Location of the box */
 /*  padding-bottom: 50%;*/
@@ -190,4 +190,28 @@
   height:100%;
   width:100%;
   border: 2px solid black;
+}
+
+.connection_image{
+  display: blok;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+.close {
+  float: right;
+  font-weight: bold;
+}
+
+.error_msg{
+  background-color: #f8cbad;
+}
+
+.success_msg{
+  background-color: seagreen;
+}
+
+.normal_msg{
+  background-color: transparent;
 }

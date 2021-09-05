@@ -2,6 +2,9 @@ var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var mime = require('mime');
+var path = require('path');
+var qs = require('querystring');
+var formidable = require('formidable');
 
 function generate_board_info()
 {
@@ -14,6 +17,23 @@ function generate_board_info()
     "copyright": "&copy; Maygli 2021"
   };
   return JSON.stringify(aBoardInfo)
+}
+
+function get_sd_filesystem_data(thePath){
+  let aRes = [];
+  console.log("aRealPath=",thePath);    
+  fs.readdirSync(thePath).forEach( function(aName){
+    console.log("  Name=", aName);
+    let aFSEntryObj = new Object();
+    aFSEntryObj.name = aName;
+    let aPath = path.join(thePath, aName);
+    let aStat = fs.statSync(aPath);
+    aFSEntryObj.is_file = aStat.isFile();
+    aFSEntryObj.size = aStat.size;
+    aRes.push(aFSEntryObj);
+  });
+  console.log("aRes=", aRes);
+  return JSON.stringify(aRes);  
 }
 
 function generate_settings_wifi(){
@@ -78,8 +98,8 @@ function generate_settings_grbl(){
   return JSON.stringify(aGrblSettings)
 }
 
-function get_filesystem_data(thePath){
-  console.log("Request filesystem data. Path="+thePath);
+function get_system_info(theParam){
+  console.log("Request system info");
   let aRawData = fs.readFileSync('fs_config.json');
   let aFsObject = JSON.parse(aRawData);  
   return JSON.stringify(aFsObject);
@@ -93,7 +113,26 @@ http.createServer(function (req, res) {
   var aPathName = q.pathname;
   console.log(aPathName)
   if( req.method == "POST" ){
-    if( aPathName == "/settings_wifi" || aPathName == "/settings_grbl"){
+    if( aPathName == "/sd_upload" ){
+    	var form = new formidable.IncomingForm();
+        form.maxFileSize = 2*1024*1024*1024;
+    	form.parse(req, function (err, fields, files) {
+          if( err ) throw err;
+          console.log("Receive SD file=" + files.file.name);
+      	  var oldpath = files.file.path;
+      	  var newpath = 'SD/' + files.file.name;
+      	  fs.copyFile(oldpath, newpath, function (err) {
+        	if (err) throw err;
+        	res.end("ok");
+                fs.unlink(oldpath, function(err){
+                  if (err) throw err;
+                });
+          });
+       });
+       return true;
+    }
+    if( aPathName == "/settings_wifi" || aPathName == "/settings_grbl" || aPathName=="/remove_file" || aPathName=="/rename_file" ||
+        aPathName == "/create_new_folder"){
       let body = "";
       req.on("data", (chunk) => {
         body += chunk.toString(); // convert Buffer to string
@@ -101,6 +140,46 @@ http.createServer(function (req, res) {
       req.on("end", () => {
         const result = JSON.parse(body);
         console.log(result);
+        if( aPathName == "/upload_parameters" ){
+        }
+        if( aPathName == "/remove_file" ){
+          let aRealPath = result.path;
+	  if( result.path.startsWith("/SD") ){
+            aRealPath = result.path.substring(1);
+            console.log("Remove file=" + aRealPath );
+            let aStat = fs.statSync(aRealPath);
+            if( aStat.isFile() ){
+              fs.unlink(aRealPath, function(err){
+                if(err) throw err;
+	      });
+            }
+            else{
+              fs.rmdirSync(aRealPath,{ recursive: true });
+            }
+          }
+        }
+        if( aPathName == "/rename_file" ){
+          let aPath = result.path;
+          let aNewName = result.new_name;
+	  if( aPath.startsWith("/SD") ){
+            let aRealPath = aPath.substring(1);
+            let aSplitPath = aRealPath.split("/");
+            aSplitPath.pop();
+            aSplitPath.push(aNewName);
+            let aNewPath = aSplitPath.join("/");
+            console.log("Rename file=" + aRealPath + " aNewPath=", aNewPath );
+	    fs.renameSync(aRealPath, aNewPath);
+          }
+        }
+        if( aPathName == "/create_new_folder" ){
+          let aPath = result.path;
+          let aNewName = result.new_name;
+	  if( aPath.startsWith("/SD") ){
+            let aRealPath = aPath.substring(1);
+            console.log("Create new folder in=" + aRealPath + " NewFolderName=", aNewName);
+            fs.mkdirSync(aRealPath + "/" + aNewName);
+          }
+        }
         return res.end("ok");
       });
     }
@@ -109,12 +188,23 @@ http.createServer(function (req, res) {
     }
     return;
   }
-  if( aPathName == "/filesystem"){
+  if( aPathName == "/sd_filesystem_data" ){
+    let aParam = q.query;
+    console.log("Query params=",aParam);
+    let aPath = aParam["path"];
+    let aRealPath="./SD/" + aPath;
+    let aData = get_sd_filesystem_data(aRealPath);
+    console.log("aData=",aData); 
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.write(aData);
+    return res.end();
+  }
+  if( aPathName == "/system_info"){
     aParam = q.query;
     console.log("Query params=",aParam);
-    aPath = aParam["path"]
-    console.log("Path=",aPath);    
-    var aData = get_filesystem_data(aPath);
+//    aPath = aParam["path"]
+///    console.log("Path=",aPath);    
+    var aData = get_system_info(aParam);
     res.writeHead(200, {"Content-Type": "application/json"});
     res.write(aData);
     return res.end();

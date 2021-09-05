@@ -23,11 +23,27 @@ class DataUpdater{
     }
     
     async _onInterval(){
+        return;
         if( this._m_IsInRequest ){
             return;
         }
+        let aReqParams = new Object();
+        for (let aReqId of this._m_Requests.keys()) {
+            if( this._m_Requests.get(aReqId).enable ){
+                aReqParams[aReqId]=true;
+            }
+        }
         this._m_IsInRequest = true;
-        let aRes = await HttpProcessor.loadData("filesystem");
+        let aRes = await HttpProcessor.loadData("system_info", false, aReqParams);
+        for( let aProp in aRes ){
+            if( this._m_Requests.has(aProp) ){
+                let aReq = this._m_Requests.get(aProp);
+                if( "callback" in aReq ){
+                    let aParam = aRes[aProp];
+                    aReq["callback"](aParam);
+                }
+            }
+        }
         this._m_IsInRequest = false;
         this._m_TimeInterval++;
     }

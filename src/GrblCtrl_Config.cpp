@@ -1,6 +1,5 @@
 #include "GrblCtrl_Config.h"
 #include "GrblCtrl_Debug.h"
-#include <ArduinoJson.h>
 
 #define JSON_DOC_SIZE 400
 

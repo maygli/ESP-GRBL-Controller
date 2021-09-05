@@ -6,7 +6,7 @@ class MenuController extends BaseController{
         let aMenuItemName = this._getControllerItemName();
         this._m_Items = this._m_BaseElement.querySelectorAll('[data-controller_item="' + aMenuItemName + '"]');
         for( let i = 0 ; i < this._m_Items.length ; i++ ){
-            this._m_Items[i].onclick = this._onItemClicked.bind(this);
+            this._m_Items[i].addEventListener("click",this._onItemClicked.bind(this));
         }
     }
 
@@ -32,16 +32,9 @@ class MenuController extends BaseController{
         return null;
     }
 
-    _onItemClicked(){
-        let aSelItem = event.target||event.srcElement;
-        let aParent = aSelItem;
-        while(aParent){
-            if( aParent.getAttribute("data-controller_item") == this._getControllerItemName()){
-                break;
-            }
-            aParent = aParent.parentElement;
-        }
-        this._selectItem(aParent);        
+    _onItemClicked(theEvent){
+        let aSelItem = theEvent.currentTarget;
+        this._selectItem(aSelItem);        
     }
 
     _selectItem(theItem){

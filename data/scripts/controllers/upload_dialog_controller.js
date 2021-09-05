@@ -14,6 +14,17 @@ class UploadDialogController extends BaseController{
         this._m_UploadMsg = this._m_BaseElement.querySelector('[data-controller_item="UploadMsg"]');      
     }
 
+    hide(){
+        super.hide();
+        if( this._m_CloseDialogCallback ){
+            this._m_CloseDialogCallback();
+        }
+    }
+
+    setCloseDialogCallback(theCallback){
+        this._m_CloseDialogCallback = theCallback;
+    }
+
     startUpload(theFileName){
         super.show();
         this._m_FileNameLbl.innerHTML = theFileName;

@@ -2,7 +2,6 @@
     border:2px solid;
     border-color:#3F3F3F;
     vertical-align: top;
-    border-collapse: separate;
     border-radius: 5px;
     width:fit-content;
     min-width: 300px;
@@ -10,9 +9,15 @@
     position: relative;
 }
 
-.file_cell{
-    text-align: center;
-    align-items: center;
+.file_selector_table{
+    border-collapse:collapse;
+    border-spacing: 0px;
+    padding:0px;
+    width:100%;
+}
+
+.file_selector_table td:last-child {
+    width: auto;
 }
 
 .sd_toolbar{

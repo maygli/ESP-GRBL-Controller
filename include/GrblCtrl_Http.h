@@ -2,6 +2,7 @@
 #define GRBL_CTRL_HTTP_H
 
 #include "GrblCtrl_Config.h"
+#include "GrblCtrl_SDManager.h"
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266mDNS.h>
@@ -16,6 +17,7 @@ public:
     void init();
     void process();
     void setConfig(GrblCtrl_Config* theConfig);
+    void setSDManager(GrblCtrl_SDManager* theManager);
     void setFileSystem(FS* theFS);
 protected:
     void onBoardInfo();
@@ -25,10 +27,12 @@ protected:
     void onUploadFiremwareParameters();
     void onUploadFirmwareFinished();
     void onUploadFirmware();
+    void onSystemInfo();
 protected:
     bool                m_isClear;
     FS*                 m_HtmlFS;
     GrblCtrl_Config*    m_Config;
+    GrblCtrl_SDManager* m_SDManager;
     ESP8266WiFiMulti    m_WifiMulti;
     ESP8266WebServer    m_Server;
     File                m_UploadedFile;
