@@ -53,11 +53,17 @@ class ComboBoxController extends BaseController{
 
     _selectItem(theItem){
         this._m_ComboBoxContent.style.display = "none";
+        let anAttrsToCopy = [ComboBoxController._m_ItemDataAttribute, ComboBoxController._m_TransAttribute];
         if( theItem ){
             this._m_ComboBoxButton.innerHTML = theItem.innerHTML;
-            let aData = theItem.getAttribute(ComboBoxController._m_ItemDataAttribute);
-            this._m_ComboBoxButton.setAttribute(ComboBoxController._m_ItemDataAttribute,aData);
-            this._comboBoxItemSelected(aData);
+            anAttrsToCopy.forEach(function(anAttr, i, anArr){
+              let aData = theItem.getAttribute(anAttr);
+              if( aData != null ){
+                this._m_ComboBoxButton.setAttribute(anAttr,aData);
+              }
+            }, this);
+            let anId = theItem.getAttribute(ComboBoxController._m_ItemDataAttribute);
+            this._comboBoxItemSelected(anId);
         }
     }
 
@@ -65,6 +71,7 @@ class ComboBoxController extends BaseController{
     }
 
     static _m_ItemDataAttribute = "data-controller_item_data";
+    static _m_TransAttribute = "data-i18n";
 }
 
 export {ComboBoxController};

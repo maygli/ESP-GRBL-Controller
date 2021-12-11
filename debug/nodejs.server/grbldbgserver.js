@@ -44,16 +44,12 @@ function generate_settings_wifi(){
     "ap_ip":"192.168.1.11",
     "ap_netmask":"255.255.255.0",
     "ap_gateway":"192.168.1.1",
-    "st_ssid1":"MaygliHome",
-    "st_pwd1":"1",
-    "st_ssid2":"",
-    "st_pwd2":"",
-    "st_ssid3":"",
-    "st_pwd3":"",
-    "st_ssid4": "",
-    "st_pwd4": "",
+    "st_ssid":"MaygliHome",
+    "st_pwd":"1",
     "st_ip": "192.168.1.70",
-    "st_timeout": "5"
+    "st_netmask":"255.255.0.0",
+    "st_gateway":"192.168.2.2",
+    "st_attempts": "5"
   };
   return JSON.stringify(aWiFiSettings)
 }
@@ -70,10 +66,10 @@ function generate_settings_grbl(){
     grbl10: '0010',
     grbl11: '0011',
     grbl12: '0012',
-    grbl13: 'false',
-    grbl20: 'false',
-    grbl21: 'false',
-    grbl22: 'false',
+    grbl13: 'Off',
+    grbl20: 'Off',
+    grbl21: 'Off',
+    grbl22: 'Off',
     grbl23: '0023',
     grbl24: '0024',
     grbl25: '0025',
@@ -81,7 +77,7 @@ function generate_settings_grbl(){
     grbl27: '0027',
     grbl30: '0030',
     grbl31: '0031',
-    grbl32: 'false',
+    grbl32: 'Off',
     grbl100: '0100',
     grbl101: '0101',
     grbl102: '0102',
@@ -160,24 +156,20 @@ http.createServer(function (req, res) {
         }
         if( aPathName == "/rename_file" ){
           let aPath = result.path;
-          let aNewName = result.new_name;
+          let aNewPath = result.new_path;
 	  if( aPath.startsWith("/SD") ){
             let aRealPath = aPath.substring(1);
-            let aSplitPath = aRealPath.split("/");
-            aSplitPath.pop();
-            aSplitPath.push(aNewName);
-            let aNewPath = aSplitPath.join("/");
+            aNewPath = aNewPath.substring(1);
             console.log("Rename file=" + aRealPath + " aNewPath=", aNewPath );
 	    fs.renameSync(aRealPath, aNewPath);
           }
         }
         if( aPathName == "/create_new_folder" ){
           let aPath = result.path;
-          let aNewName = result.new_name;
 	  if( aPath.startsWith("/SD") ){
             let aRealPath = aPath.substring(1);
-            console.log("Create new folder in=" + aRealPath + " NewFolderName=", aNewName);
-            fs.mkdirSync(aRealPath + "/" + aNewName);
+            console.log("Create new folder in=" + aRealPath);
+            fs.mkdirSync(aRealPath);
           }
         }
         return res.end("ok");

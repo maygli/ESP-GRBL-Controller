@@ -1,1 +1,93 @@
-<h2>Home<h2>
+<link rel="stylesheet" href="styles/manta_home.css"></link>
+<div  class="power_control">
+  <img src="images/open_comp.png" class="button"><span data-i18n="process_from_comp"></span>
+  <img src="images/sd_card.png" class="button"><span  data-i18n="process_from_sd"></span>
+</div>
+<table>
+     <tr>
+       <td  class="properties_group" colspan="3">
+        <div>
+          <div id="laser_power">
+            <img class="button state_image" src="images/laser_on.png"></img><span class="state_description" data-i18n="laser_on"></span>&nbsp;&nbsp;
+          </div>
+          <br/>
+          <input type="checkbox" id="enable_if_move" checked>
+          <label for="enable_if_move" data-i18n="enable_if_move"></label>      
+          <br/>
+          <div id="power_slider">
+            <span data-i18n="power"></span><input type="range" min="0" max="100" id="power_control_range" class="slider_range"></input>
+            <input type="number" id="power_control_num" class="slider_input" min="-10" max="10" required/>
+          </div>
+        </div>
+      </td>
+     </tr>
+     <tr>
+        <td class="properties_group">
+            <table>
+                <tr>
+                  <div class="vertical_center">Step:<input type="number" value="1" class="unit_value"></input>&nbsp;<span class="unit_name" data-i18n="unit_mm">mm</span></div>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td class="move_button"><img src="images/move_up.png"/>
+                  </td>
+                  <td></td>
+                  <td class="move_button"><img src="images/move_up.png"/></td>
+                </tr>
+                <tr>
+                  <td class="move_button"><img src="images/move_left.png"/></td>
+                  <td align="center">
+                    <table>
+                      <tr>
+                        <td class="move_button" align="center"><img src="images/x_home.png"/></td>
+                      </tr>
+                      <tr>
+                        <td class="move_button" align="center"><img src="images/y_home.png"/></td>
+                      </tr>
+                    </table></td>
+                  <td class="move_button"><img src="images/move_right.png"/></td>
+                  <td class="move_button" align="center"><img src="images/z_home.png"/></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td class="move_button"><img src="images/move_down.png"/></td>
+                  <td></td>
+                  <td class="move_button"><img src="images/move_down.png"/></td>
+                </tr>
+                <tr>
+		              <td>
+                    <div class="combobox lang_selector" id="axis_selector" data-controller_class="ComboBoxController">
+                      <button class="combobox_btn combobox_axis" data-controller_item="ComboBoxButton" data-controller_item_data="A">A</button>
+                      <div class="combobox-content combobox_axis_item" data-controller_item="ComboBoxContent">
+                        <div class="combobox-item combobox_axis_item" data-controller_item_data="A" data-controller_item="ComboBoxItem">A</div>
+                        <div class="combobox-item combobox_axis_item" data-controller_item_data="B" data-controller_item="ComboBoxItem">B</div>
+                        <div class="combobox-item combobox_axis_item" data-controller_item_data="C" data-controller_item="ComboBoxItem">C</div>
+                        <div class="combobox-item combobox_axis_item" data-controller_item_data="D" data-controller_item="ComboBoxItem">D</div>
+                        <div class="combobox-item combobox_axis_item" data-controller_item_data="E" data-controller_item="ComboBoxItem">E</div>
+                      </div>
+                    </div> 
+                  </td>
+                  <td class="move_button"><img src="images/move_left.png"/></td>
+                  <td class="move_button" align="center"><img src="images/a_home.png"/></td>
+                  <td class="move_button"><img src="images/move_right.png"/></td>
+                </tr>
+            </table>
+        </td>
+        <td class="properties_group">
+            <table class="position_table">
+                <tr><th>Axis</th><th>Current</th><th>New</th><th>Unit</th></tr>
+                <tr><th>X:</th><td class="unit_value">1.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr><th>Y:</th><td class="unit_value">2.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr><th>Z:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr><th>A:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr><th>B:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr><th>C:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr><th>D:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr><th>E:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr><td class="set_td" colspan="4"><span class="button">Set</span></td></tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+&nbsp;

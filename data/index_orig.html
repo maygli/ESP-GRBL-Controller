@@ -31,12 +31,23 @@
         <div class="manta_menu_item" id="main_menu_console" data-controller_item="menu_item"><img src="images/console.png"><span data-i18n="console">Console</span></div>
         <div class="manta_menu_item" id="main_menu_settings" data-controller_item="menu_item"><img src="images/settings.png"><span data-i18n="settings">Settings</span></div>
         <div class="manta_menu_item" id="main_menu_about" data-controller_item="menu_item"><img src="images/info.png"><span data-i18n="info">About</span></div>
-        <div class="combobox lang_selector" id="lang_selector" data-controller_class="ComboBoxController">
-            <button class="combobox_btn" data-controller_item="ComboBoxButton" data-controller_item_data="ru"><img src="images/ru.png"></img><span>Русский</span>
-            </button>
-            <div class="combobox-content" data-controller_item="ComboBoxContent">
-                <div class="combobox-item" data-controller_item_data="ru" data-controller_item="ComboBoxItem"><img src="images/ru.png"></img><span>Русский</span></div>
-                <div class="combobox-item" data-controller_item_data="en" data-controller_item="ComboBoxItem"><img src="images/us.png"></img><span>English</span></div>
+        <div class = "lang_selector">
+            <div class="combobox" id="lang_selector" data-controller_class="ComboBoxController">
+                <button class="combobox_btn" data-controller_item="ComboBoxButton" data-controller_item_data="ru"><img src="images/ru.png"></img><span>Русский</span></button>
+                <div class="combobox-content" data-controller_item="ComboBoxContent">
+                    <div class="combobox-item" data-controller_item_data="ru" data-controller_item="ComboBoxItem"><img src="images/ru.png"></img><span>Русский</span></div>
+                    <div class="combobox-item" data-controller_item_data="en" data-controller_item="ComboBoxItem"><img src="images/us.png"></img><span>English</span></div>
+                </div>
+            </div>
+            <div class="combobox lang_selector" id="unit_selector" data-controller_class="ComboBoxController">
+                <button class="combobox_btn" data-controller_item="ComboBoxButton" data-controller_item_data="mm" data-i18n="unit_mm">mm</button>
+                <div class="combobox-content" data-controller_item="ComboBoxContent">
+                    <div class="combobox-item" data-controller_item_data="mm" data-controller_item="ComboBoxItem" data-i18n="unit_mm">mm</div>
+                    <div class="combobox-item" data-controller_item_data="in" data-controller_item="ComboBoxItem" data-i18n="unit_in" >in</div>
+                    <div class="combobox-item" data-controller_item_data="cm" data-controller_item="ComboBoxItem" data-i18n="unit_cm">cm</div>
+                    <div class="combobox-item" data-controller_item_data="m" data-controller_item="ComboBoxItem" data-i18n="unit_m">m</div>
+                    <div class="combobox-item" data-controller_item_data="feet" data-controller_item="ComboBoxItem" data-i18n="unit_feet">feet</div>
+                </div>
             </div>
         </div>
     </div>
@@ -48,7 +59,7 @@
         <div class="manta_settings_menu_item" data-controller_item="settings_menu_item" id="settings_menu_sd"><span data-i18n="sett_sdcard">SD card</span></div>
     </div>
     <div id="pages">
-        <div class="manta_content" id="manta_home"></div>
+        <div class="manta_content" id="manta_home" data-controller_class="MainPageController"  data-controller_url="home.html"></div>
         <div class="manta_content" id="manta_console" data-controller_class="ConsoleController"  data-controller_url="console.html"></div>
         <div class="manta_content" id="manta_info" data-controller_class="InfoPageController"  data-controller_url="info.html" data-controller_request="board_info"></div>
         <div class="manta_content" id="manta_settings_wifi" data-controller_class="SettingsWifiPageController" data-controller_url="settings_wifi.html" data-controller_request="settings_wifi"></div>

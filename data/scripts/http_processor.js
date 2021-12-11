@@ -41,24 +41,14 @@ class HttpProcessor{
     }
 
     static uploadFile( theFile, theRequest, theParams, theLoadProgressCB, theLoadCompleteCB, theLoadErrCB, theLoadAbortCB ){
-        let aParReq = new XMLHttpRequest();
-        aParReq.timeout = 5000;
-        aParReq.open("POST", "upload_parameters"); 
-        aParReq.send(theParams);
-        aParReq.onreadystatechange = function(){
-            if( aParReq.readyState != 4 ){
-                return;
-            }
-            let aFormData = new FormData();
-            aFormData.append("file", theFile);
-            let aReq = new XMLHttpRequest();
-            aReq.upload.addEventListener("progress", theLoadProgressCB, false);
-            aReq.addEventListener("load", theLoadCompleteCB, false);
-            aReq.addEventListener("error", theLoadErrCB, false);
-            aReq.addEventListener("abort", theLoadAbortCB, false);
-            aReq.open("POST", theRequest); 
-            aReq.send(aFormData);
-        }
+        theParams.append("file", theFile);
+        let aReq = new XMLHttpRequest();
+        aReq.upload.addEventListener("progress", theLoadProgressCB, false);
+        aReq.addEventListener("load", theLoadCompleteCB, false);
+        aReq.addEventListener("error", theLoadErrCB, false);
+        aReq.addEventListener("abort", theLoadAbortCB, false);
+        aReq.open("POST", theRequest); 
+        aReq.send(theParams);
     }
 }
 

@@ -88,8 +88,8 @@ class SDController extends PageController{
         let aPath = this._m_PathController.getAbsolutePath() + "/" + aSelFileInfo.name;
         let aSendObj = new Object();
         aSendObj.path = aPath;
-        HttpProcessor.sendPostJSON("/remove_file",aSendObj);
-        this._refresh();
+        await HttpProcessor.sendPostJSON("/remove_file",aSendObj);
+        await this._refresh();
     }
 
     _onAddNewFolder(){
@@ -115,9 +115,10 @@ class SDController extends PageController{
     async _onRename(theNewName){
         let aSelFileInfo = this._m_FileSelectorController.getSelectedFileInfo();
         let aPath = this._m_PathController.getAbsolutePath() + "/" + aSelFileInfo.name;
+        let aNewPath = this._m_PathController.getAbsolutePath() + "/" + theNewName;
         let aSendObj = new Object();
         aSendObj.path = aPath;
-        aSendObj.new_name = theNewName;
+        aSendObj.new_path = aNewPath;
         await HttpProcessor.sendPostJSON("/rename_file",aSendObj);
         await this._refresh();
         this._m_FileSelectorController.selectFile(theNewName, aSelFileInfo.is_file);
@@ -126,8 +127,7 @@ class SDController extends PageController{
     async _onNewFolder(theNewName){
         let aPath = this._m_PathController.getAbsolutePath();
         let aSendObj = new Object();
-        aSendObj.path = aPath;
-        aSendObj.new_name = theNewName;
+        aSendObj.path = aPath + "/" + theNewName;
         await HttpProcessor.sendPostJSON("/create_new_folder",aSendObj);
         await this._refresh();
         this._m_FileSelectorController.selectFile(theNewName, false);
@@ -148,6 +148,8 @@ class SDController extends PageController{
 
         this._m_UploadedFile = aFile.name;
         let aParFormData = new FormData();
+        let aPath = this._m_PathController.getAbsolutePath();
+        aParFormData.append("path",aPath);
         HttpProcessor.uploadFile(aFile, "sd_upload", aParFormData, 
                                 this._onLoadProgress.bind(this),
                                 this._onLoadComplete.bind(this),

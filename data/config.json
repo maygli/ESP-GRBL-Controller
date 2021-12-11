@@ -1,0 +1,22 @@
+{
+  "wifi" : {
+    "mode" : "ap",
+    "access_point" : {
+       "ssid" : "MantaGrbl",
+       "password" : "11111111",
+       "ip" : "192.168.1.19",
+       "netmask" : "255.255.255.0",
+       "gateway" : "192.168.1.1"
+    },
+    "station" : {
+       "ssid" : "MaygliHome",
+       "password" : "11111111",
+       "ip" : "192.168.1.19",
+       "netmask" : "255.255.255.0",
+       "gateway" : "192.168.1.1",
+       "connection_attempts" : 5        
+    }
+  }
+}
+
+

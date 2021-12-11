@@ -43,34 +43,22 @@
                 <div class="properties_group"  id="st_group">
                     <table>
                         <tr>
-                            <td data-i18n="st_ssid1">SSID1</td><td><input type="text" name="st_ssid1" required></input></td>
+                            <td data-i18n="st_ssid">SSID</td><td><input type="text" name="st_ssid" required></input></td>
                         </tr>
                         <tr>
-                            <td data-i18n="st_pwd1">Password1</td><td><nobr data-controller_class="PasswordController"><input type="password" name="st_pwd1" required></input><img src="images/eye.png" onClick="onViewPwdClick(this)"></nobr></img></td>
-                        </tr>
-                        <tr>
-                            <td data-i18n="st_ssid2">SSID2</td><td><input type="text" name="st_ssid2"></input></td>
-                        </tr>
-                        <tr>
-                            <td data-i18n="st_pwd2">Password2</td><td><nobr data-controller_class="PasswordController"><input type="password" name="st_pwd2"></input><img src="images/eye.png" onClick="onViewPwdClick(this)"></img></nobr></td>
-                        </tr>
-                        <tr>
-                            <td data-i18n="st_ssid3">SSID3</td><td><input type="text" name="st_ssid3"></input></td>
-                        </tr>
-                        <tr>
-                            <td data-i18n="st_pwd3">Password3</td><td><nobr data-controller_class="PasswordController"><input type="password" name="st_pwd3"></input><img src="images/eye.png" onClick="onViewPwdClick(this)"></img></nobr></td>
-                        </tr>
-                        <tr>
-                            <td data-i18n="st_ssid4">SSID4</td><td><input type="text" name="st_ssid4"></input></td>
-                        </tr>
-                        <tr>
-                            <td data-i18n="st_pwd4">Password4</td><td><nobr data-controller_class="PasswordController"><input type="password" name="st_pwd4"></input><img src="images/eye.png" onClick="onViewPwdClick(this)"></img></nobr></td>
+                            <td data-i18n="st_pwd">Password</td><td><nobr data-controller_class="PasswordController"><input type="password" name="st_pwd" required></input><img src="images/eye.png" onClick="onViewPwdClick(this)"></nobr></img></td>
                         </tr>
                         <tr>
                             <td data-i18n="st_api">IP address</td><td><input type="text" onkeydown="return ipFilter(event)" minlength="7" maxlength="15" name="st_ip"  placeholder="xxx.xxx.xxx.xxx"  required pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"></input></td>
                         </tr>
                         <tr>
-                            <td data-i18n="st_timeout">Connection timeout, sec</td><td><input type="number" name="st_timeout" required></input></td>
+                            <td data-i18n="st_netmask" required>Network mask</td><td><input type="text" onkeydown="return ipFilter(event)" minlength="7" maxlength="15"  name="st_netmask"  placeholder="xxx.xxx.xxx.xxx"  required pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"></input></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_gateway" required>Default gateway</td><td><input type="text" onkeydown="return ipFilter(event)" minlength="7" maxlength="15"  name="st_gateway"  placeholder="xxx.xxx.xxx.xxx"  required pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"></input></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="st_attempts">Connection timeout, sec</td><td><input type="number" name="st_attempts" required></input></td>
                         </tr>
                     </table>
                 </div>

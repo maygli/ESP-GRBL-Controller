@@ -13,7 +13,10 @@ import {SDController} from "./manta_settings_sd.js"
 import {DataUpdater} from "./data_updater.js"
 import {HttpProcessor} from "./http_processor.js"
 import {ConnectionController} from "./connection_controller.js"
-
+import {MainPageController} from "./main_page_conntroller.js"
+import {ComboBoxController} from "./controllers/combobox_controller.js"
+import {UnitController} from "./controllers/unit_controller.js"
+ 
 export async function onMainWindowLoaded()
 {
     let language = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage);
@@ -34,6 +37,9 @@ export async function onMainWindowLoaded()
     let aLangSel = new LanguageSelector(anEl);
     aLangSel.setCurrentItem(language);
  //   updateLangSelector(aLang);
+    let aUnitEl = document.querySelector("#unit_selector");
+    let aUnitSel = new UnitController(aUnitEl, document);
+//    aLangSel.setCurrentItem(language);
 
     let aPagesContent = document.getElementById("pages");
     let aPagesStack = new StackController(aPagesContent);
@@ -43,6 +49,10 @@ export async function onMainWindowLoaded()
     let aConnImg = document.querySelector('[data-controller_class="ConnectionController"]');
     let aConnController = new ConnectionController(aConnImg);
     aConnController.setDataUpdater(aDataUpdater);
+
+    let aMainPageEl = document.querySelector("#manta_home");
+    let aMainPageController = new MainPageController(aMainPageEl);
+    aPagesStack.addPageController("main_menu_home",aMainPageController);
 
     let aConsoleEl = document.querySelector("#manta_console");
     let aConsController = new ConsoleController(aConsoleEl);
@@ -78,6 +88,7 @@ export async function onMainWindowLoaded()
     aSettingsMenu.setStackController(aPagesStack);
     aMainMenuController.setSettingsMenuController(aSettingsMenu);
 
+    aPagesStack.activatePage("main_menu_home");
 //    let aMenuController = new MenuController(null);
 /*    let aMenuEl = document.getElementById("main_menu");
     let aMainMenuController = new MenuController(aMenuEl);
