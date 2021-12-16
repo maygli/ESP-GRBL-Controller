@@ -1,7 +1,7 @@
 # ESP-GRBL-Controller
 -----------------------
 
-GRBL controller based on esp8266.
+GRBL controller based on esp32.
 
  Hardware
 -------------
@@ -20,7 +20,7 @@ Folders:
 
 **docs** contains WebAPI.yaml file which is OpenAPI file. Subfolder **html** contains MantaGRBL WebAPI description in html form 
 
-**src**,**include** controller source code
+**esp-32** controller source code
 
 **scripts** helper scripts
   * **convert_to_c.py** script to convert html into correct C string
