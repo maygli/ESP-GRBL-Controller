@@ -5,13 +5,15 @@ class DataUpdater{
         this._m_TimeInterval = theInterval;
         this._m_Counter = 0;
         setInterval(this._onInterval.bind(this), this._m_TimeInterval);
-        this._m_Requests = new Map();
+        this._m_Requests = [];
         this._m_IsInRequest = false;
     }
 
-    registerDataReq(theId, theParameters){
-        theParameters.enable = true;
-        this._m_Requests.set(theId, theParameters);
+    registerDataReq(theCallback){
+        let aPar = new Object();
+        aPar.enable = true;
+        aPar.callback = theCallback;
+        this._m_Requests.push(aPar);
     }    
 
     enableDataReq(theId){
@@ -28,20 +30,11 @@ class DataUpdater{
             return;
         }
         let aReqParams = new Object();
-        for (let aReqId of this._m_Requests.keys()) {
-            if( this._m_Requests.get(aReqId).enable ){
-                aReqParams[aReqId]=true;
-            }
-        }
         this._m_IsInRequest = true;
-        let aRes = await HttpProcessor.loadData("system_info", false, aReqParams);
-        for( let aProp in aRes ){
-            if( this._m_Requests.has(aProp) ){
-                let aReq = this._m_Requests.get(aProp);
-                if( "callback" in aReq ){
-                    let aParam = aRes[aProp];
-                    aReq["callback"](aParam);
-                }
+        let aRes = await HttpProcessor.loadData("system_info", false);
+        for (let aReq of this._m_Requests) {
+            if( aReq.enable ){
+                aReq.callback(aRes);
             }
         }
         this._m_IsInRequest = false;

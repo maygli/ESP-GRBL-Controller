@@ -8,7 +8,7 @@ GRBL controller based on esp32.
 
  ![circuit diagram](circuit.png)
 
-https://easyeda.com/account/user/projects/index/detail?project=cab9bd7cf4904de5ae48ec2f0fa1b64a&folder=all
+https://easyeda.com/account/user/projects/index/detail?project=ffdcc28a085240e88e7706169fa3a503&folder=all
  
  Code 
 ------------- 

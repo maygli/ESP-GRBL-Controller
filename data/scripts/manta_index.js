@@ -16,6 +16,7 @@ import {ConnectionController} from "./connection_controller.js"
 import {MainPageController} from "./main_page_conntroller.js"
 import {ComboBoxController} from "./controllers/combobox_controller.js"
 import {UnitController} from "./controllers/unit_controller.js"
+import {GRBLController} from "./manta_setting_grbl.js"
  
 export async function onMainWindowLoaded()
 {
@@ -44,7 +45,6 @@ export async function onMainWindowLoaded()
     let aPagesContent = document.getElementById("pages");
     let aPagesStack = new StackController(aPagesContent);
     let aDataUpdater = new DataUpdater();
-    let aReqParams = new Object();
 
     let aConnImg = document.querySelector('[data-controller_class="ConnectionController"]');
     let aConnController = new ConnectionController(aConnImg);
@@ -52,6 +52,7 @@ export async function onMainWindowLoaded()
 
     let aMainPageEl = document.querySelector("#manta_home");
     let aMainPageController = new MainPageController(aMainPageEl);
+    aMainPageController.setDataUpdater(aDataUpdater);
     aPagesStack.addPageController("main_menu_home",aMainPageController);
 
     let aConsoleEl = document.querySelector("#manta_console");
@@ -63,7 +64,8 @@ export async function onMainWindowLoaded()
     aPagesStack.addPageController("settings_menu_wifi", aWiFiSett)
 
     let aGrblEl = document.querySelector("#manta_settings_grbl");
-    let aGrblSett = new FormPageController(aGrblEl);
+    let aGrblSett = new GRBLController(aGrblEl);
+    aGrblSett.setDataUpdater(aDataUpdater);
     aPagesStack.addPageController("settings_menu_grbl", aGrblSett);
 
     let anUpgradeEl = document.querySelector("#manta_settings_upgrade");

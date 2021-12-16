@@ -11,10 +11,10 @@ import {RenameFileDialog} from "./rename_file_dlg.js"
 class SDController extends PageController{
     constructor(theEl){
         super(theEl);
+        this._m_SDMounted = true;
     }
 
     async _upadteAfterLoad(){
-        super._upadteAfterLoad();
         let anUploadEl = this._m_BaseElement.querySelector('#upload_progress');
         this._m_UploadDialogController = new UploadDialogController(anUploadEl);
         this._m_UploadDialogController.hide();
@@ -55,17 +55,21 @@ class SDController extends PageController{
         this._m_NewFolderDialog.hide();
         this._buildFS("");
         this._onSelectionChanged();
-     }
+        super._upadteAfterLoad();
+      }
 
     setDataUpdater(theProvider){
         this._m_Updater = theProvider;
-        let aParam = new Object();
-        aParam.callback = this._onSDData.bind(this);
-        this._m_Updater.registerDataReq("sd_card", aParam);
+        this._m_Updater.registerDataReq(this._onSDData.bind(this));
     }
 
     _onSDData(theData){
-        if( theData.mounted ){
+        if( !this._m_IsLoaded )
+          return;
+        if( this._m_SDMounted == theData.sd_mounted )
+          return;
+        this._m_SDMounted = theData.sd_mounted;
+        if( theData.sd_mounted ){
             if( this._m_SDWarnController ){
                 this._m_SDWarnController.hide();
                 let aTotalSize = GUIUtils.printBytes(theData.volume_size);

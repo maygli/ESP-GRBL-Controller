@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="styles/manta_home.css"></link>
+<link rel="stylesheet" href="styles/manta_settings_upgrade.css"></link>
 <div  class="power_control">
-  <img src="images/open_comp.png" class="button"><span data-i18n="process_from_comp"></span>
+  <input type="file" name="name" class="input_file" id="file_upload" data-controller_item="UploadButton" style="display:none;"></input>
+  <img src="images/open_comp.png" class="button"  id="process_from_comp"><span data-i18n="process_from_comp"></span>
   <img src="images/sd_card.png" class="button"><span  data-i18n="process_from_sd"></span>
 </div>
 <table>
@@ -29,41 +31,41 @@
                 </tr>
                 <tr>
                   <td></td>
-                  <td class="move_button"><img src="images/move_up.png"/>
+                  <td class="move_button axis_2"><img src="images/move_up.png"/>
                   </td>
                   <td></td>
-                  <td class="move_button"><img src="images/move_up.png"/></td>
+                  <td class="move_button axis_3"><img src="images/move_up.png"/></td>
                 </tr>
                 <tr>
-                  <td class="move_button"><img src="images/move_left.png"/></td>
+                  <td class="move_button axis_1"><img src="images/move_left.png"/></td>
                   <td align="center">
                     <table>
                       <tr>
-                        <td class="move_button" align="center"><img src="images/x_home.png"/></td>
+                        <td class="move_button axis_1" align="center"><img src="images/x_home.png"/></td>
                       </tr>
                       <tr>
-                        <td class="move_button" align="center"><img src="images/y_home.png"/></td>
+                        <td class="move_button axis_2" align="center"><img src="images/y_home.png"/></td>
                       </tr>
                     </table></td>
-                  <td class="move_button"><img src="images/move_right.png"/></td>
-                  <td class="move_button" align="center"><img src="images/z_home.png"/></td>
+                  <td class="move_button axis_1"><img src="images/move_right.png"/></td>
+                  <td class="move_button axis_3" align="center"><img src="images/z_home.png" =/></td>
                 </tr>
                 <tr>
                   <td></td>
-                  <td class="move_button"><img src="images/move_down.png"/></td>
+                  <td class="move_button axis_2"><img src="images/move_down.png"/></td>
                   <td></td>
-                  <td class="move_button"><img src="images/move_down.png"/></td>
+                  <td class="move_button axis_3"><img src="images/move_down.png"/></td>
                 </tr>
-                <tr>
+                <tr class="axis_4">
 		              <td>
                     <div class="combobox lang_selector" id="axis_selector" data-controller_class="ComboBoxController">
                       <button class="combobox_btn combobox_axis" data-controller_item="ComboBoxButton" data-controller_item_data="A">A</button>
                       <div class="combobox-content combobox_axis_item" data-controller_item="ComboBoxContent">
-                        <div class="combobox-item combobox_axis_item" data-controller_item_data="A" data-controller_item="ComboBoxItem">A</div>
-                        <div class="combobox-item combobox_axis_item" data-controller_item_data="B" data-controller_item="ComboBoxItem">B</div>
-                        <div class="combobox-item combobox_axis_item" data-controller_item_data="C" data-controller_item="ComboBoxItem">C</div>
-                        <div class="combobox-item combobox_axis_item" data-controller_item_data="D" data-controller_item="ComboBoxItem">D</div>
-                        <div class="combobox-item combobox_axis_item" data-controller_item_data="E" data-controller_item="ComboBoxItem">E</div>
+                        <div class="combobox-item combobox_axis_item axis_4" data-controller_item_data="A" data-controller_item="ComboBoxItem">A</div>
+                        <div class="combobox-item combobox_axis_item axis_5" data-controller_item_data="B" data-controller_item="ComboBoxItem">B</div>
+                        <div class="combobox-item combobox_axis_item axis_6" data-controller_item_data="C" data-controller_item="ComboBoxItem">C</div>
+                        <div class="combobox-item combobox_axis_item axis_7" data-controller_item_data="D" data-controller_item="ComboBoxItem">D</div>
+                        <div class="combobox-item combobox_axis_item axis_8" data-controller_item_data="E" data-controller_item="ComboBoxItem">E</div>
                       </div>
                     </div> 
                   </td>
@@ -76,18 +78,37 @@
         <td class="properties_group">
             <table class="position_table">
                 <tr><th>Axis</th><th>Current</th><th>New</th><th>Unit</th></tr>
-                <tr><th>X:</th><td class="unit_value">1.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
-                <tr><th>Y:</th><td class="unit_value">2.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
-                <tr><th>Z:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
-                <tr><th>A:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
-                <tr><th>B:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
-                <tr><th>C:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
-                <tr><th>D:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
-                <tr><th>E:</th><td class="unit_value">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr class="axis_1"><th>X:</th><td class="unit_value" id="curr_x">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr class="axis_2"><th>Y:</th><td class="unit_value" id="curr_y">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr class="axis_3"><th>Z:</th><td class="unit_value" id="curr_z">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr class="axis_4"><th>A:</th><td class="unit_value" id="curr_a">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr class="axis_5"><th>B:</th><td class="unit_value" id="curr_b">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr class="axis_6"><th>C:</th><td class="unit_value" id="curr_c">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr class="axis_7"><th>D:</th><td class="unit_value" id="curr_d">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
+                <tr class="axis_8"><th>E:</th><td class="unit_value" id="curr_e">0.0</td><td><input type="number" value="0" class="unit_value"></input></td><td class="unit_name">mm</td></tr>
                 <tr><td class="set_td" colspan="4"><span class="button">Set</span></td></tr>
             </table>
         </td>
     </tr>
 </table>
+<div id="progress_process" class="modal" data-controller_class="ProcessDialogController">
+  <div id="modal_content" class="modal_content">
+      <h2 id="upload_title" class="manta_title"><img src="images/open_comp.png"/><span data-i18n="process_progress"/></h2>
+      <p><span data-i18n="settings_upgrade_file">File</span>: <b id="filename_info" data-controller_item="FileName"></b></p>
+      <progress id="progress_bar" value="0" max="100"  style="display:none"  data-controller_item="ProgressBar"></progress> 
+      <p>
+        <img src="images/stop.png" class="button"/>
+        <img src="images/pause.png" class="button"/>
+      </p>
+      <button type="button" class="collapsible" id="collapsible" data-controller_item="ExpandButton">
+        <span id="expand_sign" data-controller_item="ExpandSign">+</span>
+        <span id="collapse_sign" data-controller_item="CollapseSign">-</span>
+        <span data-i18n="process_tuning">Process tuning</span></button>
+      <div id="content" hidden="true" data-controller_item="ModalContent">
+        <span>Power/speed</span><input type="number" value="100" min="0">%
+      </div>
+      <p>&nbsp<span class="button close" id="button_close" data-i18n="settings_upgrade_close" data-controller_item="CloseButton">Close</span></p>
+  </div>
+</div>
 <br/>
 &nbsp;
